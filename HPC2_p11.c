@@ -14,8 +14,8 @@ double randomNumber(int ubound, int lbound){
 void transpose(double *a, int n){
     int i,j;
     double temp;
-    for(i=0;i<n;i++){
-        for(j=0;j<n;j++){
+    for(i=0;i<n/2;i++){
+        for(j=0;j<n/2;j++){
             temp = a[i*n+j];
             a[i*n+j] = a[j*n+i];
             a[j*n+i] = temp;
