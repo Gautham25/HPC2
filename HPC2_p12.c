@@ -9,6 +9,18 @@ double randomNumber(int ubound, int lbound){
     return s;
 }
 
+double checkCorrectness(double *a, double *b, int n){
+    int i,j;
+    double error = 0.0;
+    for(i=0;i<n;i++){
+        for(j=0;j<n;j++){
+            if(error < abs(a[i*n+j]-b[i*n+j]))
+                error = abs(a[i*n+j]-b[i*n+j]);
+        }
+    }
+    printf("Error = %f\n",error);
+}
+
 void assignMatVal(double *a, int n, int ubound, int lbound){
     int i;
     for(i=0;i<n;i++){
@@ -105,15 +117,10 @@ int main(){
         clock_gettime(CLOCK_MONOTONIC, &tend);
         time = ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
         printf("\nCPU time for LU factorisation is %.5f\n",time);
-        gflops = (2*pow(n,3))/(3*time*pow*10,9);
+        gflops = (2*pow(n,3))/(3*time*pow(10,9));
         printf("\nPerformance in GFLOPS = %f\n",gflops);
-        clock_gettime(CLOCK_MONOTONIC, &tstart);
-        mydgetrf(n,arrA,arrB,pvt,x,y,0);
-        clock_gettime(CLOCK_MONOTONIC, &tend);
-        time = ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
-        printf("\nCPU time for LU factorisation is %.5f\n",time);
-        gflops = (2*pow(n,3))/(3*time*pow*10,9);
-        printf("\nPerformance in GFLOPS = %f\n",gflops);
+        mydtrsm(n,arrA,arrB,pvt,x,y,0);
+        mydtrsm(n,arrA,arrB,pvt,x,y,1);
         free(arrA);
         free(arrB);
         free(pvt);
