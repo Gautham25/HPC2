@@ -47,9 +47,10 @@ int main()
 {
     srand((double)time(NULL));
     int ubound = 100, lbound = 1;
-    int arrayLen[] = {1000};//,2000,3000,4000,5000};
+    int arrayLen[] = {1000,2000,3000,4000,5000};
     int size = (sizeof(arrayLen)/sizeof(arrayLen[0]));
     int n,j,i;
+    printf("Using LAPACK Library\n");
     for(j=0;j<size;j++){
         int n = arrayLen[i];
         struct timespec tstart={0,0},tend={0,0};
@@ -113,12 +114,12 @@ int main()
         // backward Ux = y
         dtrsm_(&SIDE,&UPLO,&TRANS,&DIAG,&N,&M,&a,arrA, &N, arrB, &N);
 
-        printf("print the result : {\n");
-        for (i=0;i<N;i++)
-        {
-    	       printf("%f ",arrB[i]);
-        }
-        printf("}\n");
+        // printf("print the result : {\n");
+        // for (i=0;i<N;i++)
+        // {
+    	//        printf("%f ",arrB[i]);
+        // }
+        // printf("}\n");
         printf("Size N = %d\n",arrayLen[i]);
         printf("Time Taken = %.5f seconds\n",time);
         double gflops = (2*pow(n,3))/(3*time*pow(10,9));
