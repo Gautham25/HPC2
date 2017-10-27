@@ -95,7 +95,7 @@ int main()
     	       printf("%f ",arrB[i]);
         }
         printf("}\n");
-        printf("Size N = %d\n",arrayLen[i]);
+        printf("Size N = %d\n",n);
         printf("Time Taken = %.5f seconds\n",time);
         double gflops = (2*pow(n,3))/(3*time*pow(10,9));
         printf("\nPerformance in GFLOPS = %f\n",gflops);
