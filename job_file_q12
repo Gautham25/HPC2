@@ -2,4 +2,4 @@
 
 JOB_PATH=/home/gmani001/HPC2
 cd $JOB_PATH
-./HPC_p12s
+./HPC2_p12s
