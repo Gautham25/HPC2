@@ -53,7 +53,7 @@ void mydgetrf(double *arrA,int *pvt, int n, int b){
             for(t=i+1;t<n;t++){
                 if(abs(arrA[t*n+i])>max){
                     maxind = t;
-                    max = abs(arrA(t*n+i));
+                    max = abs(arrA[t*n+i]);
                 }
             }
             if(max==0){
@@ -122,7 +122,7 @@ void mydtrsm(int n, double *arrA, double *arrB, int *pvt, double *x, double *y, 
     else{
         x[n-1] = y[n-1]/arrA[n*n+n];
         for(i=n-1;i>=0;i--){
-            for(k=i+);k<n;k++){
+            for(k=i+1;k<n;k++){
                 sum+= x[k]*arrA[i*n+k];
                 temp = y[i]-sum;
                 x[i] = temp/arrA[i*n+i];
