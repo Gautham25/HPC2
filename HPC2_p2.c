@@ -89,7 +89,7 @@ void mydgetrf(double *arrA,int *pvt, int n, int b){
             for(j=ib;j<=end;j++){
                 //arrA[j*n+i] = arrA[j*n+i]/arrA[i*n+i];
                 for(k=end+1;k<n;k++){
-                    arrA[j*n+k] = ll[p*b+q] * arrA[i*n+k]
+                    arrA[j*n+k] = ll[p*b+q] * arrA[i*n+k];
                     q++;
                 }
                 p++;
@@ -107,7 +107,7 @@ void mydgetrf(double *arrA,int *pvt, int n, int b){
 
 }
 
-void mydtrsm(int n, double *arrA, double *arrB, int *pvt, double *z, double *y, int label){
+void mydtrsm(int n, double *arrA, double *arrB, int *pvt, double *x, double *y, int label){
     double sum = 0.0, temp;
     int i,k;
     if(label == 0){
@@ -115,17 +115,17 @@ void mydtrsm(int n, double *arrA, double *arrB, int *pvt, double *z, double *y, 
         for(i=1;i<n;i++){
             for(k=0;k<i-1;k++){
                 sum+=y[k]*arrA[i*n+k];
-                y[i] = b[pvt[i]]-sum;
+                y[i] = arrB[pvt[i]]-sum;
             }
         }
     }
     else{
-        x[n-1] = y[n-1]/a[n*n+n];
+        x[n-1] = y[n-1]/arrA[n*n+n];
         for(i=n-1;i>=0;i--){
             for(k=i+);k<n;k++){
-                sum+= x[k]*a[i*n+k];
+                sum+= x[k]*arrA[i*n+k];
                 temp = y[i]-sum;
-                x[i] = temp/a[i*n+i];
+                x[i] = temp/arrA[i*n+i];
             }
         }
     }
