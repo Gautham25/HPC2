@@ -14,11 +14,9 @@ double randomNumber(int ubound, int lbound){
 void transpose(double *a, int n){
     int i,j;
     double temp;
-    for(i=0;i<n/2;i++){
-        for(j=0;j<n/2;j++){
-            temp = a[i*n+j];
+    for(i=0;i<n;i++){
+        for(j=0;j<n;j++){
             a[i*n+j] = a[j*n+i];
-            a[j*n+i] = temp;
         }
     }
 }
@@ -56,7 +54,7 @@ int main()
 {
     srand((double)time(NULL));
     int ubound = 100, lbound = 1;
-    int arrayLen[] = {10};//,2000,3000,4000,5000};
+    int arrayLen[] = {1000};//,2000,3000,4000,5000};
     int size = (sizeof(arrayLen)/sizeof(arrayLen[0]));
     int n,j,i;
     printf("Using LAPACK Library\n");
