@@ -3,7 +3,7 @@
 #include<math.h>
 #include<time.h>
 #include "lapacke.h"
-#include "cblas.h"
+#include "blas.h"
 
 double randomNumber(int ubound, int lbound){
     double s;
