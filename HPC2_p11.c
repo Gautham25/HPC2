@@ -11,6 +11,18 @@ double randomNumber(int ubound, int lbound){
     return s;
 }
 
+void transpose(double *a, int n){
+    int i,j;
+    double temp;
+    for(i=0;i<n;i++){
+        for(j=0;j<n;j++){
+            temp = a[i*n+j];
+            a[i*n+j] = a[j*n+i];
+            a[j*n+i] = temp;
+        }
+    }
+}
+
 void assignMatVal(double *a ,int n, int ubound, int lbound){
     int i;
     for(i=0;i<n;i++){
@@ -18,6 +30,17 @@ void assignMatVal(double *a ,int n, int ubound, int lbound){
     }
 }
 
+double checkCorrectness(double *a, double *b, int n){
+    int i,j;
+    double error = 0.0;
+    for(i=0;i<n;i++){
+        for(j=0;j<n;j++){
+            if(error < abs(a[i*n+j]-b[i*n+j]))
+                error = abs(a[i*n+j]-b[i*n+j]);
+        }
+    }
+    printf("Error = %f\n",error);
+}
 
 
 int main()
@@ -28,7 +51,7 @@ int main()
     int size = (sizeof(arrayLen)/sizeof(arrayLen[0]));
     int n,j,i;
     for(j=0;j<size;j++){
-        int n = arrayLen[j];
+        int n = arrayLen[i];
         struct timespec tstart={0,0},tend={0,0};
         char TRANS = 'N';
         int INFO = n;
@@ -42,6 +65,7 @@ int main()
         arrB = (double *)calloc(sizeof(double),n);
         assignMatVal(arrA,n*n,ubound,lbound);
         assignMatVal(arrB,n,ubound,lbound);
+        transpose(arrA,n);
         // use new to allocate memory if you need large space
         // Here, we want to solve AX = b
         //    x1 + 2x2 + 3x3 = 1
@@ -95,7 +119,7 @@ int main()
     	       printf("%f ",arrB[i]);
         }
         printf("}\n");
-        printf("Size N = %d\n",n);
+        printf("Size N = %d\n",arrayLen[i]);
         printf("Time Taken = %.5f seconds\n",time);
         double gflops = (2*pow(n,3))/(3*time*pow(10,9));
         printf("\nPerformance in GFLOPS = %f\n",gflops);
