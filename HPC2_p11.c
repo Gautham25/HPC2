@@ -75,6 +75,8 @@ int main()
         arrB = (double *)calloc(sizeof(double),n);
         assignMatVal(arrA,n*n,ubound,lbound);
         assignMatVal(arrB,n,ubound,lbound);
+        printArray(arrA,n);
+        printf("\n");
         transpose(arrA,n);
         printArray(arrA,n);
         // use new to allocate memory if you need large space
