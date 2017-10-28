@@ -272,6 +272,7 @@ int main(){
     double gflops, time;
     struct timespec tstart={0,0}, tend={0,0};
     int len = sizeof(arrN)/sizeof(arrN[0]);
+    printf("\nBLOCKED GEPP \n");
     for(i=0;i<len;i++){
         n = arrN[i];
         arrA = (double *)calloc(sizeof(double), n*n);
@@ -302,6 +303,7 @@ int main(){
         free(x);
         free(y);
         free(abk);
+        printf("\n");
     }
     return 0;
 }
