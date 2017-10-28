@@ -161,6 +161,7 @@ void matInverse(double* A, double* inverse, int n)
 void mydgetrf(double *arrA,int *pvt, int n, int b){
     int i,t,l,m,p,q,j,k,maxind,temps,end,ib;
     double tempv,max;
+    double *ll;
     for(ib=0;ib<n;ib+=b){
         end = ib + b-1;
         for(i=ib;i<=end;i++){
@@ -190,7 +191,7 @@ void mydgetrf(double *arrA,int *pvt, int n, int b){
                     }
                 }
             }
-            double *ll = (double*)calloc(sizeof(double), b*b);
+            ll = (double*)calloc(sizeof(double), b*b);
             //double *lln = (double*)calloc(sizeof(double), b*b);
             p=0;q=0;
             for(l=ib;l<=end;l++){
@@ -231,12 +232,11 @@ void mydgetrf(double *arrA,int *pvt, int n, int b){
                 }
             }
         }
-            free(ll);
+        free(ll);
             //free(lln);
-        }
     }
-
 }
+
 
 void mydtrsm(int n, double *arrA, double *arrB, int *pvt, double *x, double *y, int label){
     double sum = 0.0, temp;
