@@ -128,7 +128,7 @@ int main()
 {
     srand((double)time(NULL));
     int ubound = 100, lbound = 1;
-    int arrayLen[] = {10};//,2000,3000,4000,5000};
+    int arrayLen[] = {3};//,2000,3000,4000,5000};
     int size = (sizeof(arrayLen)/sizeof(arrayLen[0]));
     int n,j,i,k;
     printf("Using LAPACK Library\n");
@@ -230,6 +230,8 @@ int main()
         gflops = (2*pow(n,3))/(3*time*pow(10,9));
         printf("Time Taken = %.5f seconds\n",time);
         printf("\nPerformance in GFLOPS = %f\n",gflops);
+        printArray(arrB,n);
+        printArray(x,n);
         checkCorrectness(arrB,x,n);
         free(arrA);
         free(arrB);
