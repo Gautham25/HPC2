@@ -21,7 +21,7 @@ void copyMatrix(double *a, double *b, int n){
 }
 
 
-void mydgetrf(double *arrA,int *pvt, int n){
+void mydgetrf(double *arrA,int *pvt, double *tempv, int n){
     int i,t,j,k,maxind,temps;
     double tempv,max;
     for(i=0;i<n-1;i++){
@@ -44,10 +44,10 @@ void mydgetrf(double *arrA,int *pvt, int n){
                 pvt[i] = pvt[maxind];
                 pvt[maxind] = temps;
                 //Swap rows
-                for(k=i;k<n;k++){
-                    tempv = arrA[i*n+k];
+                for(k=0;k<n;k++){
+                    tempv[k] = arrA[i*n+k];
                     arrA[i*n+k] = arrA[maxind*n+k];
-                    arrA[maxind*n+k] = tempv;
+                    arrA[maxind*n+k] = tempv[k];
                 }
             }
         }
@@ -152,12 +152,13 @@ int main()
         int N = n;
         int NRHS = 1;
         int *IPIV = (int *)calloc(sizeof(int),n);
-        double  *arrA, *arrA1, *arrB, *arrB1, *x, *y, *abk;
+        double  *arrA, *arrA1, *arrB, *arrB1, *x, *y, *abk, *tempv;
         int *pvt;
         arrA = (double *)calloc(sizeof(double),n*n);
         arrA1 = (double *)calloc(sizeof(double),n*n);
         arrB = (double *)calloc(sizeof(double),n);
         arrB1 = (double *)calloc(sizeof(double), n);
+        tempv = (double *)calloc(sizeof(double),n);
         assignMatVal(arrA,n*n,ubound,lbound);
         copyMatrix(arrA,arrA1,n);
         assignMatVal(arrB,n,ubound,lbound);
@@ -231,7 +232,7 @@ int main()
         printf("\nPerformance in GFLOPS = %f\n",gflops);
         printf("\n");
         clock_gettime(CLOCK_MONOTONIC,&tstart);
-        mydgetrf(arrA1,pvt,n);
+        mydgetrf(arrA1,pvt, tempv,n);
         clock_gettime(CLOCK_MONOTONIC,&tend);
         mydtrsm(n,arrA1,arrB1,pvt,x,y,0);
         mydtrsm(n,arrA1,arrB1,pvt,x,y,1);
@@ -241,7 +242,6 @@ int main()
         printf("Time Taken = %.5f seconds\n",time);
         printf("\nPerformance in GFLOPS = %f\n",gflops);
         printArray(arrA,n,2);
-        printf("\n");
         printArray(arrA1,n,2);
         checkCorrectness(arrB,x,n);
         free(arrA);
@@ -253,6 +253,7 @@ int main()
         free(y);
         free(abk);
         free(IPIV);
+        free(tempv);
     }
     return 0;
 }
