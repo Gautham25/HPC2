@@ -215,7 +215,7 @@ void mydgetrf(double *arrA,int *pvt, int n, int b){
                 //arrA[j*n+i] = arrA[j*n+i]/arrA[i*n+i];
                 for(k=end+1;k<n;k++){
                     for(m=ib;m<end;m++){
-                        arrA[j*n+k] += lln[p*b+q] * arrA[m*n+k];
+                        arrA[j*n+k] += ll[p*b+q] * arrA[m*n+k];
                         q++;
                     }
                     q=0;
@@ -266,7 +266,7 @@ void mydtrsm(int n, double *arrA, double *arrB, int *pvt, double *x, double *y, 
 int main(){
     int *pvt,n,i,k;
     int ubound = 100, lbound = 0;
-    int arrN[] = {1000};//,2000,3000,4000,5000};
+    int arrN[] = {1000,2000,3000,4000,5000};
     int block = 100;
     double *arrA, *arrB, *abk, *x, *y;
     double gflops, time;
