@@ -245,6 +245,9 @@ int main()
         mydtrsm_b(n,arrA1,arrB1,pvt,x,y);
         printf("\n");
         printArray(x,n,1);
+        printf("\n");
+        printArray(arrB,n,1);
+        printf("\n");
         // printf("\n");
         // printf("\n");
         // printf("MYDGETRF VERSION\n");
@@ -253,7 +256,6 @@ int main()
         // printf("Time Taken = %.5f seconds\n",time);
         // printf("\nPerformance in GFLOPS = %f\n",gflops);
         printf("\n");
-        //printArray(IPIV,n,1);
         printf("\n");
         //printArray(x,n,1);
         free(arrA);
