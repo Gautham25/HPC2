@@ -234,6 +234,7 @@ int main()
         mydgetrf(arrA1,pvt, tempv,n);
         clock_gettime(CLOCK_MONOTONIC,&tend);
         mydtrsm(n,arrA1,arrB1,pvt,x,y,1);
+        printArray(x,n,1);
         mydtrsm(n,arrA1,arrB1,pvt,x,y,0);
         printf("MYDGETRF VERSION\n");
         time = ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
