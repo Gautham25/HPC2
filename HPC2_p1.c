@@ -205,7 +205,9 @@ int main()
         //dgetrs_(&TRANS,&N,&NRHS,A,&LDA,IPIV,B,&LDB,&INFO);
 
         // change the order of B according to IPIV[] from LU factorization
-
+        printf("\n");
+        printArray(arrB,n,1);
+        printf("\n");
         for(i = 0; i < N; i++)
         {
             double tmp = arrB[IPIV[i]-1];
@@ -235,6 +237,9 @@ int main()
         clock_gettime(CLOCK_MONOTONIC,&tend);
         mydtrsm_f(n,arrA1,arrB1,pvt,x,y);
         mydtrsm_b(n,arrA1,arrB1,pvt,x,y);
+        printf("\n");
+        printArray(y,n,1);
+        printf("\n");
         printf("MYDGETRF VERSION\n");
         time = ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
         gflops = (2*pow(n,3))/(3*time*pow(10,9));
@@ -247,8 +252,6 @@ int main()
         printArray(arrB,n,1);
         printf("\n");
         printArray(x,n,1);
-        printf("\n");
-        printArray(arrB1,n,1);
         free(arrA);
         free(arrB);
         free(arrA1);
