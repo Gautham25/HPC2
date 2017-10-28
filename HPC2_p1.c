@@ -131,7 +131,7 @@ int main()
     int ubound = 100, lbound = 1;
     int arrayLen[] = {10};//,2000,3000,4000,5000};
     int size = (sizeof(arrayLen)/sizeof(arrayLen[0]));
-    int n,j,i.k;
+    int n,j,i,k;
     printf("Using LAPACK Library\n");
     for(j=0;j<size;j++){
         int n = arrayLen[i];
