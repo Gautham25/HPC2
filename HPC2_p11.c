@@ -54,7 +54,7 @@ int main()
 {
     srand((double)time(NULL));
     int ubound = 100, lbound = 1;
-    int arrayLen[] = {1000};//,2000,3000,4000,5000};
+    int arrayLen[] = {10};//,2000,3000,4000,5000};
     int size = (sizeof(arrayLen)/sizeof(arrayLen[0]));
     int n,j,i;
     printf("Using LAPACK Library\n");
