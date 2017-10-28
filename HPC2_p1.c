@@ -66,14 +66,14 @@ void mydtrsm(int n, double *arrA, double *arrB, int *pvt, double *x, double *y, 
     if(label == 0){
         y[0] = arrB[pvt[0]];
         for(i=1;i<n;i++){
-            for(k=0;k<i-1;k++){
+            for(k=0;k<i;k++){
                 sum+=y[k]*arrA[i*n+k];
             }
             y[i] = arrB[pvt[i]]-sum;
         }
     }
     else{
-        x[n-1] = y[n-1]/arrA[n*n+n];
+        x[n-1] = y[n-1]/arrA[(n-1)*n+(n-1)];
         for(i=n-1;i>=0;i--){
             for(k=i+1;k<n;k++){
                 sum+= x[k]*arrA[i*n+k];
@@ -107,12 +107,11 @@ double checkCorrectness(double *a, double *b, int n){
     int i,j;
     double error = 0.0;
     for(i=0;i<n;i++){
-        for(j=0;j<n;j++){
-            if(error < abs(a[i*n+j]-b[i*n+j]))
-                error = abs(a[i*n+j]-b[i*n+j]);
-        }
+        if(error < abs(a[i]-b[i]))
+            error = abs(a[i]-b[i]);
     }
     printf("Error = %f\n",error);
+    printf("\n");
 }
 
 void printArray(double *a, int n){
@@ -221,13 +220,10 @@ int main()
         double gflops = (2*pow(n,3))/(3*time*pow(10,9));
         printf("\nPerformance in GFLOPS = %f\n",gflops);
         printf("\n");
-        printArray(arrA1,n);
         mydgetrf(arrA1,pvt,n);
         mydtrsm(n,arrA1,arrB1,pvt,x,y,0);
         mydtrsm(n,arrA1,arrB1,pvt,x,y,1);
-        printf("\n");
-
-        printArray(arrB1,n);
+        checkCorrectness(arrB,x,n);
         free(arrA);
         free(arrB);
         free(arrA1);
