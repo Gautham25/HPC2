@@ -61,7 +61,7 @@ int main()
     int n,j,i;
     printf("Using LAPACK Library\n");
     for(j=0;j<size;j++){
-        int n = arrayLen[i];
+        int n = arrayLen[j];
         struct timespec tstart={0,0},tend={0,0};
         char TRANS = 'N';
         int INFO = n;
