@@ -38,7 +38,7 @@ void mydgetrf(double *arrA,int *pvt, int n){
             return;
         }
         else{
-            if(maxind != 1){
+            if(maxind != i){
                 //Save pivoting information
                 temps = pvt[i];
                 pvt[i] = pvt[maxind];
@@ -241,6 +241,7 @@ int main()
         printf("Time Taken = %.5f seconds\n",time);
         printf("\nPerformance in GFLOPS = %f\n",gflops);
         printArray(arrA,n,2);
+        printf("\n");
         printArray(arrA1,n,2);
         checkCorrectness(arrB,x,n);
         free(arrA);
