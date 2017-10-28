@@ -77,6 +77,7 @@ void mydtrsm(int n, double *arrA, double *arrB, int *pvt, double *x, double *y, 
                 sum+=y[k]*arrA[i*n+k];
             }
             y[i] = arrB[pvt[i]]-sum;
+            sum = 0.0;
         }
     }
     else{
@@ -87,6 +88,7 @@ void mydtrsm(int n, double *arrA, double *arrB, int *pvt, double *x, double *y, 
             }
             temp = y[i]-sum;
             x[i] = temp/arrA[i*n+i];
+            sum = 0.0;
         }
     }
 }
