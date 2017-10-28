@@ -197,7 +197,7 @@ void mydgetrf(double *arrA,int *pvt, int n, int b){
             for(l=ib;l<=end;l++){
                 for(m=ib;m<=end;m++){
                     if(l<m){
-                        ll[p*b+q] = arrA[p*b+q];
+                        ll[p*b+q] = arrA[l*n+m];
                     }
                     else if(l==m){
                         ll[p*b+q] = 1;
