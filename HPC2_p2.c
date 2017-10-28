@@ -266,7 +266,7 @@ void mydtrsm(int n, double *arrA, double *arrB, int *pvt, double *x, double *y, 
 int main(){
     int *pvt,n,i,k;
     int ubound = 100, lbound = 0;
-    int arrN[] = {1000};//,2000,3000,4000,5000};
+    int arrN[] = {1000,2000,3000,4000,5000};
     int block = 100;
     double *arrA, *arrB, *abk, *x, *y;
     double gflops, time;
