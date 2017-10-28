@@ -137,7 +137,7 @@ int main()
 {
     srand((double)time(NULL));
     int ubound = 100, lbound = 1;
-    double randomNumber = randomNumber(ubound,lbound);
+    double random = randomNumber(ubound,lbound);
     int arrayLen[] = {3};//,2000,3000,4000,5000};
     int size = (sizeof(arrayLen)/sizeof(arrayLen[0]));
     int n,j,i,k;
