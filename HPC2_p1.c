@@ -75,7 +75,7 @@ void mydtrsm(int n, double *arrA, double *arrB, int *pvt, double *x, double *y, 
     }
     else{
         x[n-1] = y[n-1]/arrA[(n-1)*n+(n-1)];
-        for(i=n-1;i>=0;i--){
+        for(i=n-2;i>=0;i--){
             for(k=i+1;k<n;k++){
                 sum+= x[k]*arrA[i*n+k];
             }
