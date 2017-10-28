@@ -75,8 +75,8 @@ void mydtrsm(int n, double *arrA, double *arrB, int *pvt, double *x, double *y, 
         for(i=1;i<n;i++){
             for(k=0;k<i-1;k++){
                 sum+=y[k]*arrA[i*n+k];
-                y[i] = arrB[pvt[i]]-sum;
             }
+            y[i] = arrB[pvt[i]]-sum;
         }
     }
     else{
@@ -84,9 +84,9 @@ void mydtrsm(int n, double *arrA, double *arrB, int *pvt, double *x, double *y, 
         for(i=n-1;i>=0;i--){
             for(k=i+1;k<n;k++){
                 sum+= x[k]*arrA[i*n+k];
-                temp = y[i]-sum;
-                x[i] = temp/arrA[i*n+i];
             }
+            temp = y[i]-sum;
+            x[i] = temp/arrA[i*n+i];
         }
     }
 }
@@ -94,7 +94,7 @@ void mydtrsm(int n, double *arrA, double *arrB, int *pvt, double *x, double *y, 
 int main(){
     int *pvt,n,i,k;
     int ubound = 100, lbound = 0;
-    int arrN[] = {1000};//,2000,3000,4000,5000};
+    int arrN[] = {10};//00,2000,3000,4000,5000};
     double *arrA, *arrB, *abk, *x, *y;
     double gflops, time;
     struct timespec tstart={0,0}, tend={0,0};
@@ -104,8 +104,8 @@ int main(){
         arrA = (double *)calloc(sizeof(double), n*n);
         arrB = (double *)calloc(sizeof(double), n);
         abk = (double *)calloc(sizeof(double), n*n);
-        x = (double *)calloc(sizeof(double), n*n);
-        y = (double *)calloc(sizeof(double), n*n);
+        x = (double *)calloc(sizeof(double), n);
+        y = (double *)calloc(sizeof(double), n);
         pvt = (int *)calloc(sizeof(int), n);
         for(k=0;k<n;k++){
             pvt[k]=k;
@@ -115,6 +115,7 @@ int main(){
         clock_gettime(CLOCK_MONOTONIC, &tstart);
         mydgetrf(arrA,pvt,n);
         clock_gettime(CLOCK_MONOTONIC, &tend);
+        printf("\nSize = %d\n",n);
         time = ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
         printf("\nCPU time for LU factorisation is %.5f\n",time);
         gflops = (2*pow(n,3))/(3*time*pow(10,9));
