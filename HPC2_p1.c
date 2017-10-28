@@ -213,7 +213,6 @@ int main()
         // {
     	//        printf("%f ",arrB[i]);
         // }
-        printArray(arrB,n);
         printf("Size N = %d\n",n);
         printf("Time Taken = %.5f seconds\n",time);
         double gflops = (2*pow(n,3))/(3*time*pow(10,9));
