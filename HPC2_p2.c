@@ -215,7 +215,7 @@ void mydgetrf(double *arrA,int *pvt, int n, int b){
                 //arrA[j*n+i] = arrA[j*n+i]/arrA[i*n+i];
                 for(k=end+1;k<n;k++){
                     for(m=ib;m<end;m++){
-                        arrA[j*n+k] += lln[p*b+q] * arrA[m*n+k];
+                        arrA[j*n+k] += ll[p*b+q] * arrA[m*n+k];
                         q++;
                     }
                     q=0;
