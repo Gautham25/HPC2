@@ -63,7 +63,6 @@ void mydgetrf(double *arrA,int *pvt, double *tempv, int n){
 void mydtrsm_f(int n, double *arrA, double *arrB, int *pvt, double *x, double *y){
     double sum = 0.0, temp;
     int i,k;
-    printf("HELLO Begin\n");
         y[0] = arrB[pvt[0]];
         for(i=1;i<n;i++){
             sum = 0.0;
@@ -72,7 +71,6 @@ void mydtrsm_f(int n, double *arrA, double *arrB, int *pvt, double *x, double *y
             }
             y[i] = arrB[pvt[i]]-sum;
         }
-        printf("HELLO\n");
 }
 
 void mydtrsm_b(int n, double *arrA, double *arrB, int *pvt, double *x, double *y){
@@ -222,11 +220,12 @@ int main()
         dtrsm_(&SIDE,&UPLO,&TRANS,&DIAG,&N,&M,&a,arrA, &N, arrB, &N);
         UPLO = 'U';
         DIAG = 'N';
+
+        // backward Ux = y
+        dtrsm_(&SIDE,&UPLO,&TRANS,&DIAG,&N,&M,&a,arrA, &N, arrB, &N);
         printf("\n");
         printArray(arrB,n,1);
         printf("\n");
-        // backward Ux = y
-        dtrsm_(&SIDE,&UPLO,&TRANS,&DIAG,&N,&M,&a,arrA, &N, arrB, &N);
 
         // printf("print the result : {\n");
         // for (i=0;i<N;i++)
@@ -242,9 +241,10 @@ int main()
         mydgetrf(arrA1,pvt, tempv,n);
         clock_gettime(CLOCK_MONOTONIC,&tend);
         mydtrsm_f(n,arrA1,arrB1,pvt,x,y);
-        printf("\n");
-        printArray(y,n,1);
+
         mydtrsm_b(n,arrA1,arrB1,pvt,x,y);
+        printf("\n");
+        printArray(x,n,1);
         // printf("\n");
         // printf("\n");
         // printf("MYDGETRF VERSION\n");
