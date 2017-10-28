@@ -241,6 +241,10 @@ int main()
         gflops = (2*pow(n,3))/(3*time*pow(10,9));
         printf("Time Taken = %.5f seconds\n",time);
         printf("\nPerformance in GFLOPS = %f\n",gflops);
+        printArray(arrA,n,1);
+        printf("\n");
+        printArray(arrA1,n,1);
+        printf("\n");
         printArray(arrB,n,1);
         printf("\n");
         printArray(x,n,1);
