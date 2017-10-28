@@ -160,7 +160,6 @@ int main()
             pvt[k]=k;
         }
         transpose(arrA,n);
-        printArray(arrA,n);
         // use new to allocate memory if you need large space
         // Here, we want to solve AX = b
         //    x1 + 2x2 + 3x3 = 1
@@ -185,6 +184,7 @@ int main()
         char     DIAG = 'U';
         int      M    = 1;
         double   a    = 1.0;
+        printf("\nLAPACK LIBRARY\n");
         clock_gettime(CLOCK_MONOTONIC,&tstart);
         LAPACK_dgetrf(&N,&N,arrA,&LDA,IPIV,&INFO);
         clock_gettime(CLOCK_MONOTONIC,&tend);
@@ -213,16 +213,22 @@ int main()
         // {
     	//        printf("%f ",arrB[i]);
         // }
-        printf("\n");
         printArray(arrB,n);
         printf("Size N = %d\n",n);
         printf("Time Taken = %.5f seconds\n",time);
         double gflops = (2*pow(n,3))/(3*time*pow(10,9));
         printf("\nPerformance in GFLOPS = %f\n",gflops);
         printf("\n");
+        clock_gettime(CLOCK_MONOTONIC,&tstart);
         mydgetrf(arrA1,pvt,n);
+        clock_gettime(CLOCK_MONOTONIC,&tend);
         mydtrsm(n,arrA1,arrB1,pvt,x,y,0);
         mydtrsm(n,arrA1,arrB1,pvt,x,y,1);
+        printf("MYDGETRF VERSION\n");
+        time = ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
+        gflops = (2*pow(n,3))/(3*time*pow(10,9));
+        printf("Time Taken = %.5f seconds\n",time);
+        printf("\nPerformance in GFLOPS = %f\n",gflops);
         checkCorrectness(arrB,x,n);
         free(arrA);
         free(arrB);
