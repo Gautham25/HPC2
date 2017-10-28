@@ -151,7 +151,9 @@ int main()
         assignMatVal(arrA,n*n,ubound,lbound);
         copyMatrix(arrA,arrA1,n);
         assignMatVal(arrB,n,ubound,lbound);
-        copyMatrix(arrB,arrB1,n);
+        for(k=0;k<n;k++){
+            arrB1[k] = arrB[k];
+        }
         abk = (double *)calloc(sizeof(double), n*n);
         x = (double *)calloc(sizeof(double), n);
         y = (double *)calloc(sizeof(double), n);
