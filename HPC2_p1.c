@@ -225,6 +225,7 @@ int main()
         mydgetrf(arrA1,pvt,n);
         mydtrsm(n,arrA1,arrB1,pvt,x,y,0);
         mydtrsm(n,arrA1,arrB1,pvt,x,y,1);
+        printf("\n");
         printArray(arrB1,n);
         free(arrA);
         free(arrB);
