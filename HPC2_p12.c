@@ -73,14 +73,14 @@ void mydtrsm(int n, double *arrA, double *arrB, int *pvt, double *x, double *y, 
     if(label == 0){
         y[0] = arrB[pvt[0]];
         for(i=1;i<n;i++){
-            for(k=0;k<i-1;k++){
+            for(k=0;k<i;k++){
                 sum+=y[k]*arrA[i*n+k];
             }
             y[i] = arrB[pvt[i]]-sum;
         }
     }
     else{
-        x[n-1] = y[n-1]/arrA[n*n+n];
+        x[n-1] = y[n-1]/arrA[(n-1)*n+(n-1)];
         for(i=n-1;i>=0;i--){
             for(k=i+1;k<n;k++){
                 sum+= x[k]*arrA[i*n+k];
