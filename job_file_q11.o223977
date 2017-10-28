@@ -1,0 +1,26 @@
+Using LAPACK Library
+Size N = 1000
+Time Taken = 0.52823 seconds
+
+Performance in GFLOPS = 1.262088
+
+Size N = 2000
+Time Taken = 4.33529 seconds
+
+Performance in GFLOPS = 1.230212
+
+Size N = 3000
+Time Taken = 13.97709 seconds
+
+Performance in GFLOPS = 1.287822
+
+Size N = 4000
+Time Taken = 33.34401 seconds
+
+Performance in GFLOPS = 1.279590
+
+Size N = 5000
+Time Taken = 66.88389 seconds
+
+Performance in GFLOPS = 1.245940
+

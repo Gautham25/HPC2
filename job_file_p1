@@ -4,4 +4,4 @@ module load gcc-4.7.2
 
 JOB_PATH=/home/gmani001/HPC2
 cd $JOB_PATH
-./HPC2_p12
+./HPC2_p1
