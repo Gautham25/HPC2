@@ -2,8 +2,8 @@
 #include<stdlib.h>
 #include<math.h>
 #include<time.h>
-// #include "lapacke.h"
-// #include "blas.h"
+#include "lapacke.h"
+#include "blas.h"
 
 double randomNumber(int ubound, int lbound){
     double s;
