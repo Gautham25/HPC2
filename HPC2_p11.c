@@ -134,6 +134,9 @@ int main()
         double gflops = (2*pow(n,3))/(3*time*pow(10,9));
         printf("\nPerformance in GFLOPS = %f\n",gflops);
         printf("\n");
+        free(arrA);
+        free(arrB);
+        free(IPIV);
     }
     return 0;
 }
