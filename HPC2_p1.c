@@ -233,9 +233,8 @@ int main()
         clock_gettime(CLOCK_MONOTONIC,&tstart);
         mydgetrf(arrA1,pvt, tempv,n);
         clock_gettime(CLOCK_MONOTONIC,&tend);
-        mydtrsm(n,arrA1,arrB1,pvt,x,y,1);
-        printArray(x,n,1);
         mydtrsm(n,arrA1,arrB1,pvt,x,y,0);
+        mydtrsm(n,arrA1,arrB1,pvt,x,y,1);
         printf("MYDGETRF VERSION\n");
         time = ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
         gflops = (2*pow(n,3))/(3*time*pow(10,9));
@@ -248,6 +247,8 @@ int main()
         printArray(arrB,n,1);
         printf("\n");
         printArray(x,n,1);
+        printf("\n");
+        printArray(arrB1,n,1);
         checkCorrectness(arrB,x,n);
         free(arrA);
         free(arrB);
