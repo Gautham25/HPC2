@@ -56,7 +56,7 @@ int main()
 {
     srand((double)time(NULL));
     int ubound = 100, lbound = 1;
-    int arrayLen[] = {1000};//,2000,3000,4000,5000};
+    int arrayLen[] = {1000,2000,3000,4000,5000};
     int size = (sizeof(arrayLen)/sizeof(arrayLen[0]));
     int n,j,i;
     printf("Using LAPACK Library\n");
@@ -75,10 +75,7 @@ int main()
         arrB = (double *)calloc(sizeof(double),n);
         assignMatVal(arrA,n*n,ubound,lbound);
         assignMatVal(arrB,n,ubound,lbound);
-        printArray(arrA,n);
-        printf("\n");
         transpose(arrA,n);
-        printArray(arrA,n);
         // use new to allocate memory if you need large space
         // Here, we want to solve AX = b
         //    x1 + 2x2 + 3x3 = 1
@@ -131,13 +128,12 @@ int main()
         // {
     	//        printf("%f ",arrB[i]);
         // }
-        printf("\n");
-        printArray(arrB);
+        // printArray(arrB);
         printf("Size N = %d\n",arrayLen[i]);
         printf("Time Taken = %.5f seconds\n",time);
         double gflops = (2*pow(n,3))/(3*time*pow(10,9));
         printf("\nPerformance in GFLOPS = %f\n",gflops);
-
+        printf("\n");
     }
     return 0;
 }
