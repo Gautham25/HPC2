@@ -215,17 +215,17 @@ int main()
     	//        printf("%f ",arrB[i]);
         // }
         printf("\n");
-        printArray(arrB);
+        printArray(arrB,n);
         printf("Size N = %d\n",arrayLen[i]);
         printf("Time Taken = %.5f seconds\n",time);
         double gflops = (2*pow(n,3))/(3*time*pow(10,9));
         printf("\nPerformance in GFLOPS = %f\n",gflops);
         printf("\n");
-        printArray(arrA1);
+        printArray(arrA1,n);
         mydgetrf(arrA1,pvt,n);
         mydtrsm(n,arrA1,arrB1,pvt,x,y,0);
         mydtrsm(n,arrA1,arrB1,pvt,x,y,1);
-        printArray(arrB1);
+        printArray(arrB1,n);
         free(arrA);
         free(arrB);
         free(arrA1);
