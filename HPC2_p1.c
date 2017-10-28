@@ -114,10 +114,18 @@ double checkCorrectness(double *a, double *b, int n){
     printf("\n");
 }
 
-void printArray(double *a, int n){
+void printArray(double *a, int n, int d){
     int i,j;
-    for(i=0;i<n;i++){
-        for(j=0;j<n;j++){
+    if(d==2){
+        for(i=0;i<n;i++){
+            for(j=0;j<n;j++){
+                printf("%f ",a[i*n+j]);
+            }
+            printf("\n");
+        }
+    }
+    else{
+        for(i=0;i<n;i++){
             printf("%f ",a[i*n+j]);
         }
         printf("\n");
@@ -230,8 +238,8 @@ int main()
         gflops = (2*pow(n,3))/(3*time*pow(10,9));
         printf("Time Taken = %.5f seconds\n",time);
         printf("\nPerformance in GFLOPS = %f\n",gflops);
-        printArray(arrB,n);
-        printArray(x,n);
+        printArray(arrB,n,1);
+        printArray(x,n,1);
         checkCorrectness(arrB,x,n);
         free(arrA);
         free(arrB);
