@@ -23,7 +23,7 @@ void copyMatrix(double *a, double *b, int n){
 
 void mydgetrf(double *arrA,int *pvt, double *tempv, int n){
     int i,t,j,k,maxind,temps;
-    double tempv,max;
+    double max;
     for(i=0;i<n-1;i++){
         maxind = i;
         max=abs(arrA[i*n+i]);
