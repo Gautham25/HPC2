@@ -134,7 +134,7 @@ int main()
     int n,j,i,k;
     printf("Using LAPACK Library\n");
     for(j=0;j<size;j++){
-        int n = arrayLen[i];
+        int n = arrayLen[j];
         struct timespec tstart={0,0},tend={0,0};
         char TRANS = 'N';
         int INFO = n;
@@ -216,7 +216,7 @@ int main()
         // }
         printf("\n");
         printArray(arrB,n);
-        printf("Size N = %d\n",arrayLen[i]);
+        printf("Size N = %d\n",n);
         printf("Time Taken = %.5f seconds\n",time);
         double gflops = (2*pow(n,3))/(3*time*pow(10,9));
         printf("\nPerformance in GFLOPS = %f\n",gflops);
