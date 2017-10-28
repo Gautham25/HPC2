@@ -77,9 +77,9 @@ void mydtrsm(int n, double *arrA, double *arrB, int *pvt, double *x, double *y, 
         for(i=n-1;i>=0;i--){
             for(k=i+1;k<n;k++){
                 sum+= x[k]*arrA[i*n+k];
-                temp = y[i]-sum;
-                x[i] = temp/arrA[i*n+i];
             }
+            temp = y[i]-sum;
+            x[i] = temp/arrA[i*n+i];
         }
     }
 }
