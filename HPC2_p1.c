@@ -2,8 +2,8 @@
 #include<stdlib.h>
 #include<math.h>
 #include<time.h>
-#include "lapacke.h"
-#include "blas.h"
+// #include "lapacke.h"
+// #include "blas.h"
 
 double randomNumber(int ubound, int lbound){
     double s;
@@ -63,6 +63,7 @@ void mydgetrf(double *arrA,int *pvt, double *tempv, int n){
 void mydtrsm_f(int n, double *arrA, double *arrB, int *pvt, double *x, double *y){
     double sum = 0.0, temp;
     int i,k;
+    printf("HELLO Begin\n");
         y[0] = arrB[pvt[0]];
         for(i=1;i<n;i++){
             sum = 0.0;
@@ -71,7 +72,9 @@ void mydtrsm_f(int n, double *arrA, double *arrB, int *pvt, double *x, double *y
             }
             y[i] = arrB[pvt[i]]-sum;
         }
+        printf("HELLO\n");
 }
+
 void mydtrsm_b(int n, double *arrA, double *arrB, int *pvt, double *x, double *y){
     double sum = 0.0, temp;
     int i,k;
@@ -127,7 +130,7 @@ void printArray(double *a, int n, int d){
     }
     else{
         for(i=0;i<n;i++){
-            printf("%f ",a[i*n+j]);
+            printf("%f ",a[i]);
         }
         printf("\n");
     }
@@ -138,6 +141,7 @@ int main()
     srand((double)time(NULL));
     int ubound = 100, lbound = 1;
     double random = randomNumber(ubound,lbound);
+    double time,gflops;
     int arrayLen[] = {3};//,2000,3000,4000,5000};
     int size = (sizeof(arrayLen)/sizeof(arrayLen[0]));
     int n,j,i,k;
@@ -206,9 +210,7 @@ int main()
         //dgetrs_(&TRANS,&N,&NRHS,A,&LDA,IPIV,B,&LDB,&INFO);
 
         // change the order of B according to IPIV[] from LU factorization
-        printf("\n");
-        printArray(arrB,n,1);
-        printf("\n");
+
         for(i = 0; i < N; i++)
         {
             double tmp = arrB[IPIV[i]-1];
@@ -220,6 +222,9 @@ int main()
         dtrsm_(&SIDE,&UPLO,&TRANS,&DIAG,&N,&M,&a,arrA, &N, arrB, &N);
         UPLO = 'U';
         DIAG = 'N';
+        printf("\n");
+        printArray(arrB,n,1);
+        printf("\n");
         // backward Ux = y
         dtrsm_(&SIDE,&UPLO,&TRANS,&DIAG,&N,&M,&a,arrA, &N, arrB, &N);
 
@@ -229,30 +234,28 @@ int main()
     	//        printf("%f ",arrB[i]);
         // }
         printf("Size N = %d\n",n);
-        printf("Time Taken = %.5f seconds\n",time);
-        double gflops = (2*pow(n,3))/(3*time*pow(10,9));
-        printf("\nPerformance in GFLOPS = %f\n",gflops);
+        // printf("Time Taken = %.5f seconds\n",time);
+        // double gflops = (2*pow(n,3))/(3*time*pow(10,9));
+        // printf("\nPerformance in GFLOPS = %f\n",gflops);
         printf("\n");
         clock_gettime(CLOCK_MONOTONIC,&tstart);
         mydgetrf(arrA1,pvt, tempv,n);
         clock_gettime(CLOCK_MONOTONIC,&tend);
         mydtrsm_f(n,arrA1,arrB1,pvt,x,y);
-        mydtrsm_b(n,arrA1,arrB1,pvt,x,y);
         printf("\n");
         printArray(y,n,1);
+        mydtrsm_b(n,arrA1,arrB1,pvt,x,y);
+        // printf("\n");
+        // printf("\n");
+        // printf("MYDGETRF VERSION\n");
+        // time = ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
+        // gflops = (2*pow(n,3))/(3*time*pow(10,9));
+        // printf("Time Taken = %.5f seconds\n",time);
+        // printf("\nPerformance in GFLOPS = %f\n",gflops);
         printf("\n");
-        printf("MYDGETRF VERSION\n");
-        time = ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
-        gflops = (2*pow(n,3))/(3*time*pow(10,9));
-        printf("Time Taken = %.5f seconds\n",time);
-        printf("\nPerformance in GFLOPS = %f\n",gflops);
-        printArray(arrA,n,2);
+        //printArray(IPIV,n,1);
         printf("\n");
-        printArray(arrA1,n,2);
-        printf("\n");
-        printArray(arrB,n,1);
-        printf("\n");
-        printArray(x,n,1);
+        //printArray(x,n,1);
         free(arrA);
         free(arrB);
         free(arrA1);
