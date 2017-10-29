@@ -82,7 +82,7 @@ void mydgetrfBlock(double *arrA,int *pvt, double *tempv, int n, int b){
                 }
             }
             if(max==0.0){
-                printf("LU factorization failed: coefficient matrix is singular\n");
+                //printf("LU factorization failed: coefficient matrix is singular\n");
                 return;
             }
             else{
@@ -186,8 +186,8 @@ int main(){
     srand((double)time(NULL));
     int *pvt,n,i,k,m;
     int ubound = 100, lbound = 0;
-    int arrN[] = {10};//00,2000,3000,4000,5000};
-    int block[] = {4};//0,100,200,300,400,500};
+    int arrN[] = {1000,2000,3000,4000,5000};
+    int block[] = {50,100,200,300,400,500};
     double random = randomNumber(ubound,lbound);
     double time,gflops;
     int len = sizeof(arrN)/sizeof(arrN[0]);
