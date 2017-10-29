@@ -81,7 +81,7 @@ void mydgetrfBlock(double *arrA,int *pvt, double *tempv, int n, int b){
                     max = abs(arrA[t*n+i]);
                 }
             }
-            if(max==0){
+            if(max==0.0){
                 printf("LU factorization failed: coefficient matrix is singular\n");
                 return;
             }
