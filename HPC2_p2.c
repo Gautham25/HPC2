@@ -213,13 +213,7 @@ int main(){
         arrA1 = (double *)calloc(sizeof(double),n*n);
         arrB = (double *)calloc(sizeof(double),n);
         arrB1 = (double *)calloc(sizeof(double), n);
-        tempv = (double *)calloc(sizeof(double), n);
-        x = (double *)calloc(sizeof(double), n);
-        y = (double *)calloc(sizeof(double), n);
-        pvt = (int *)calloc(sizeof(int), n);
-        for(m=0;m<n;m++){
-            pvt[m]=m;
-        }
+
         assignMatVal(arrA,n*n,ubound,lbound);
         copyMatrix(arrA,arrA1,n*n);
         assignMatVal(arrB,n,ubound,lbound);
@@ -266,10 +260,6 @@ int main(){
         // printf("\n");
         printf("\nBLOCKED GEPP \n");
         printf("\nSize N = %d\n",n);
-        free(pvt);
-        free(x);
-        free(y);
-        free(tempv);
         for(k=0;k<blockLen;k++){
             arrA2 = (double *)calloc(sizeof(double),n*n);
             arrB2 = (double *)calloc(sizeof(double),n);
