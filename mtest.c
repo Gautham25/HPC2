@@ -61,68 +61,68 @@ void mydgetrf(double *a,int *pvt,int n,int block,double *tempv){
                     pvt[i] = pvt[maxind];
                     pvt[maxind] = temps;
 
-                    // for(k=0;k<n;i++)
-                    // {
-                    //     tempv[k]=a[i*n+k];
-                    //     a[i*n+k]=a[maxind*n+k];
-                    //     a[maxind*n+k]=tempv[k];
-                    // }
+                    for(k=0;k<n;k++)
+                    {
+                        tempv[k]=a[i*n+k];
+                        a[i*n+k]=a[maxind*n+k];
+                        a[maxind*n+k]=tempv[k];
+                    }
                 }
            }
 
-            // for(j=i+1;j<n;j++)
-            // {
-            //     a[j*n+i]=a[j*n+i]/a[i*n+i];
-            //     for(k=i+1;k<=end;k++){
-            //         a[j*n+k]=a[j*n+k]-(a[j*n+i]*a[i*n+k]);
-            //     }
-            // }
+            for(j=i+1;j<n;j++)
+            {
+                a[j*n+i]=a[j*n+i]/a[i*n+i];
+                for(k=i+1;k<=end;k++){
+                    a[j*n+k]=a[j*n+k]-(a[j*n+i]*a[i*n+k]);
+                }
+            }
         }
         //factorizing
 
         //ll inverse
-        // ll = (double*)calloc(sizeof(double), block*block);
-        //     p=0;q=0;
-        //     for(l=ib;l<=end;l++){
-        //         for(m=ib;m<=end;m++){
-        //             if(l>m){
-        //                 ll[p*block+q] = a[l*n+m] * (-1);
-        //             }
-        //             else if(l==m){
-        //                 ll[p*block+q] = 1;
-        //             }
-        //             else{
-        //                 ll[p*block+q] = 0;
-        //             }
-        //             q++;
-        //         }
-        //         p++;
-        //         q=0;
-        //     }
-        //     p=0;q=0;
-        //     for(j=ib;j<=end;j++){
-        //         for(k=end+1;k<n;k++){
-        //                 sum=0.0;
-        //             for(m=ib;m<=end;m++){
-        //                 sum+= ll[p*block+q] * a[m*n+k];
-        //                 q++;
-        //             }
-        //             a[j*n+k]=sum;
-        //             q=0;
-        //         }
-        //         p++;
-        //         q=0;
-        //     }
-        //     for(j=end+1;j<n;j++){
-        //         for(k=end+1;k<n;k++){
-        //             double store=0.0;
-        //             for(l=ib;l<=end;l++){
-        //                 store+=a[j*n+l]*a[l*n+k];
-        //             }
-        //             a[j*n+k]-=store;
-        //         }
-        //     }
-        //     free(ll);
+        ll = (double*)calloc(sizeof(double), block*block);
+            p=0;q=0;
+            for(l=ib;l<=end;l++){
+                for(m=ib;m<=end;m++){
+                    if(l>m){
+                        ll[p*block+q] = a[l*n+m] * (-1);
+                    }
+                    else if(l==m){
+                        ll[p*block+q] = 1;
+                    }
+                    else{
+                        ll[p*block+q] = 0;
+                    }
+                    q++;
+                }
+                p++;
+                q=0;
+            }
+            p=0;q=0;
+            for(j=ib;j<=end;j++){
+                for(k=end+1;k<n;k++){
+                        sum=0.0;
+                    for(m=ib;m<=end;m++){
+                        sum+= ll[p*block+q] * a[m*n+k];
+                        q++;
+                    }
+                    a[j*n+k]=sum;
+                    q=0;
+                }
+                p++;
+                q=0;
+            }
+            for(j=end+1;j<n;j++){
+                for(k=end+1;k<n;k++){
+                    double store=0.0;
+                    for(l=ib;l<=end;l++){
+                        store+=a[j*n+l]*a[l*n+k];
+                    }
+                    a[j*n+k]-=store;
+                }
+            }
+            free(ll);
     }
 }
 //forward substitution
