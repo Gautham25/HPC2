@@ -2,6 +2,8 @@
 #include<stdlib.h>
 #include<math.h>
 #include<time.h>
+#include "lapacke.h"
+#include "blas.h"
 
 double randomNumber(int ubound, int lbound){
     double s;
@@ -9,16 +11,16 @@ double randomNumber(int ubound, int lbound){
     return s;
 }
 
-double checkCorrectness(double *a, double *b, int n){
+void transpose(double *a, int n){
     int i,j;
-    double error = 0.0;
+    double temp;
     for(i=0;i<n;i++){
-        for(j=0;j<n;j++){
-            if(error < abs(a[i*n+j]-b[i*n+j]))
-                error = abs(a[i*n+j]-b[i*n+j]);
+        for(j=i;j<n;j++){
+            temp = a[i*n+j];
+            a[i*n+j] = a[j*n+i];
+            a[j*n+i] = temp;
         }
     }
-    printf("Error = %f\n",error);
 }
 
 void assignMatVal(double *a, int n, int ubound, int lbound){
@@ -28,139 +30,45 @@ void assignMatVal(double *a, int n, int ubound, int lbound){
     }
 }
 
-void getCofactor(double* A, double* temp, int p, int q, int n)
-{
-    int i = 0, j = 0;
-    int row, col;
+void copyMatrix(double *a, double *b, int n){
+    int i,j;
+    for(i=0;i<n;i++){
+        b[i] = a[i];
+    }
+}
 
-    // Looping for each element of the matrix
-    for (row = 0; row < n; row++)
-    {
-        for (col = 0; col < n; col++)
-        {
-            //  Copying into temporary matrix only those element
-            //  which are not in given row and column
-            if (row != p && col != q)
-            {
-                temp[i*n+j] = A[row*n+col];
-                j++;
-
-                // Row is filled, so increase row index and
-                // reset col index
-                if (j == n - 1)
-                {
-                    j = 0;
-                    i++;
-                }
+void printArray(double *a, int n, int d){
+    int i,j;
+    if(d==2){
+        for(i=0;i<n;i++){
+            for(j=0;j<n;j++){
+                printf("%f ",a[i*n+j]);
             }
+            printf("\n");
         }
     }
+    else{
+        for(i=0;i<n;i++){
+            printf("%f ",a[i]);
+        }
+        printf("\n");
+    }
 }
 
-/* Recursive function for finding determinant of matrix.
-   n is current dimension of A[][]. */
-double determinant(double* A, int n,int m)
-{
-    double D = 0.0; // Initialize result
-
-    //  Base case : if matrix contains single element
-    if (m == 1)
-        return A[0];
-
-    //int temp[N][N]; // To store cofactors
-    int i;
-    double *temp = (double *)calloc(n*n, sizeof(double));
-
-    int sign = 1;  // To store sign multiplier
-
-     // Iterate for each element of first row
-    int f;
-    for (f = 0; f < n; f++)
-    {
-        // Getting Cofactor of A[0][f]
-        getCofactor(A, temp, 0, f, n);
-        D += sign * A[0*n+f] * determinant(temp,n, m - 1);
-
-        // terms are to be added with alternate sign
-        sign = -sign;
-    }
-
-    return D;
-}
-
-// Function to get adjoint of A[N][N] in adj[N][N].
-//void adjoint(int A[N][N],int adj[N][N])
-void adjoint(double* A, double* adj, int n)
-{
-    if (n == 1)
-    {
-        adj[0] = 1;
-        return;
-    }
-
-    // temp is used to store cofactors of A[][]
-    int sign = 1;
-    //temp[N][N];
+double checkCorrectness(double *a, double *b, int n){
     int i,j;
-    double *temp = (double *)calloc(n*n, sizeof(double ));
-    // for (i=0; i<n; i++)
-    //      temp[i] = (double *)calloc(n, sizeof(double));
-
-
-    for (i=0; i<n; i++)
-    {
-        for (j=0; j<n; j++)
-        {
-            // Get cofactor of A[i][j]
-            getCofactor(A, temp, i, j, n);
-
-            // sign of adj[j][i] positive if sum of row
-            // and column indexes is even.
-            sign = ((i+j)%2==0)? 1: -1;
-
-            // Interchanging rows and columns to get the
-            // transpose of the cofactor matrix
-            adj[j*n+i] = (double)(sign)*(determinant(temp,n, n-1));
-        }
+    double error = 0.0;
+    for(i=0;i<n;i++){
+        if(error < abs(a[i]-b[i]))
+            error = abs(a[i]-b[i]);
     }
-
-    free(temp);
-
+    printf("Error = %f\n",error);
+    printf("\n");
 }
 
-// Function to calculate and store inverse, returns false if
-// matrix is singular
-void matInverse(double* A, double* inverse, int n)
-{
-    // Find determinant of A[][]
-    double det = determinant(A,n,n);
-    if (det == 0.0)
-    {
-        printf("Singular matrix, can't find its inverse");
-        return;
-    }
-    // Find adjoint
-    //int adj[N][N];
-    int i,j;
-    double *adj = (double *)calloc(n*n, sizeof(double));
-    adjoint(A, adj, n);
-    //display(adj,n);
-    // Find Inverse using formula "inverse(A) = adj(A)/det(A)"
-    for (i=0; i<n; i++)
-        for (j=0; j<n; j++)
-        {
-            inverse[i*n+j] = (double)(adj[i*n+j]/det);
-            printf("%f\n",inverse[i*n+j]);
-        }
-
-    free(adj);
-
-    //return true;
-}
-
-void mydgetrf(double *arrA,int *pvt, int n, int b){
+void mydgetrfBlock(double *arrA,int *pvt, double *tempv, int n, int b){
     int i,t,l,m,p,q,j,k,maxind,temps,end,ib;
-    double tempv,max;
+    double max, matsum;
     double *ll;
     for(ib=0;ib<n;ib+=b){
         end = ib + b-1;
@@ -178,132 +86,229 @@ void mydgetrf(double *arrA,int *pvt, int n, int b){
                 return;
             }
             else{
-                if(maxind != 1){
+                if(maxind != i){
                     //Save pivoting information
                     temps = pvt[i];
                     pvt[i] = pvt[maxind];
                     pvt[maxind] = temps;
                     //Swap rows
-                    for(k=i;k<n;k++){
-                        tempv = arrA[i*n+k];
+                    for(k=0;k<n;k++){
+                        tempv[k] = arrA[i*n+k];
                         arrA[i*n+k] = arrA[maxind*n+k];
-                        arrA[maxind*n+k] = tempv;
+                        arrA[maxind*n+k] = tempv[k];
                     }
                 }
             }
-            ll = (double*)calloc(sizeof(double), b*b);
-            //double *lln = (double*)calloc(sizeof(double), b*b);
-            p=0;q=0;
-            for(l=ib;l<=end;l++){
+
+            for(j=i+1;j<n;j++){
+                arrA[j*n+i] = arrA[j*n+i]/arrA[i*n+i];
+                for(k=i+1;k<=end;k++){
+                    arrA[j*n+k] = arrA[j*n+k] - arrA[j*n+i] * arrA[i*n+k];
+                }
+            }
+        }
+
+        ll = (double*)calloc(sizeof(double), b*b);
+        //double *lln = (double*)calloc(sizeof(double), b*b);
+        p=0;q=0;
+        for(l=ib;l<=end;l++){
+            for(m=ib;m<=end;m++){
+                if(l>m){
+                    ll[p*b+q] = arrA[l*n+m] * (-1);
+                }
+                else if(l==m){
+                    ll[p*b+q] = 1;
+                }
+                else{
+                    ll[p*b+q] = 0;
+                }
+                q++;
+            }
+            p++;
+            q=0;
+        }
+        p=0;q=0;
+        for(j=ib;j<=end;j++){
+            for(k=end+1;k<n;k++){
+                matsum = 0.0;
                 for(m=ib;m<=end;m++){
-                    if(l<m){
-                        ll[p*b+q] = arrA[l*n+m];
-                    }
-                    else if(l==m){
-                        ll[p*b+q] = 1;
-                    }
-                    else{
-                        ll[p*b+q] = 0;
-                    }
+                    matsum += ll[p*b+q] * arrA[m*n+k];
                     q++;
                 }
-                p++;
+                arrA[j*n+k] = matsum;
                 q=0;
             }
-            //matInverse(ll,lln,b);
-            p=0;q=0;
-            for(j=ib;j<=end;j++){
-                //arrA[j*n+i] = arrA[j*n+i]/arrA[i*n+i];
-                for(k=end+1;k<n;k++){
-                    for(m=ib;m<end;m++){
-                        arrA[j*n+k] += ll[p*b+q] * arrA[m*n+k];
-                        q++;
-                    }
-                    q=0;
-                }
-                p++;
-                q=0;
-            }
+            p++;
+            q=0;
         }
         for(j=end+1;j<n;j++){
             for(k=end+1;k<n;k++){
+                double gmat = 0.0;
                 for(l=ib;l<=end;l++){
-                    arrA[j*n+k] = arrA[j*n+k] - arrA[j*n+l] * arrA[l*n+k];
+                    gmat += arrA[j*n+l] * arrA[l*n+k];
                 }
+                arrA[j*n+k] -= gmat;
             }
         }
         free(ll);
+    }
+
             //free(lln);
+}
+
+void mydtrsm_f(int n, double *arrA, double *arrB, int *pvt, double *x, double *y){
+    double sum = 0.0, temp;
+    int i,k;
+    y[0] = arrB[pvt[0]];
+    for(i=1;i<n;i++){
+        sum = 0.0;
+        for(k=0;k<i;k++){
+            sum += y[k]*arrA[i*n+k];
+        }
+        y[i] = arrB[pvt[i]]-sum;
     }
 }
 
-
-void mydtrsm(int n, double *arrA, double *arrB, int *pvt, double *x, double *y, int label){
+void mydtrsm_b(int n, double *arrA, double *arrB, int *pvt, double *x, double *y){
     double sum = 0.0, temp;
     int i,k;
-    if(label == 0){
-        y[0] = arrB[pvt[0]];
-        for(i=1;i<n;i++){
-            for(k=0;k<i;k++){
-                sum+=y[k]*arrA[i*n+k];
-            }
-            y[i] = arrB[pvt[i]]-sum;
-            sum = 0.0;
+    x[n-1] = y[n-1]/arrA[(n-1)*n+(n-1)];
+    for(i=n-2;i>=0;i--){
+        sum=0.0;
+        for(k=i+1;k<n;k++){
+            sum+= x[k]*arrA[i*n+k];
         }
-    }
-    else{
-        x[n-1] = y[n-1]/arrA[(n-1)*n+(n-1)];
-        for(i=n-2;i>=0;i--){
-            for(k=i+1;k<n;k++){
-                sum+= x[k]*arrA[i*n+k];
-            }
-            temp = y[i]-sum;
-            x[i] = temp/arrA[i*n+i];
-            sum = 0.0;
-        }
+        x[i] = (y[i]-sum)/arrA[i*n+i];
     }
 }
 
 int main(){
-    int *pvt,n,i,k;
+    srand((double)time(NULL));
+    int *pvt,n,i,k,m;
     int ubound = 100, lbound = 0;
-    int arrN[] = {1000,2000,3000,4000,5000};
-    int block = 100;
-    double *arrA, *arrB, *abk, *x, *y;
-    double gflops, time;
-    struct timespec tstart={0,0}, tend={0,0};
+    int arrN[] = {10};//00,2000,3000,4000,5000};
+    int block[] = {4};//0,100,200,300,400,500};
+    double random = randomNumber(ubound,lbound);
+    double time,gflops;
     int len = sizeof(arrN)/sizeof(arrN[0]);
-    printf("\nBLOCKED GEPP \n");
+    int blockLen = sizeof(block)/sizeof(block[0]);
     for(i=0;i<len;i++){
         n = arrN[i];
-        arrA = (double *)calloc(sizeof(double), n*n);
-        arrB = (double *)calloc(sizeof(double), n);
-        abk = (double *)calloc(sizeof(double), n*n);
-        x = (double *)calloc(sizeof(double), n*n);
-        y = (double *)calloc(sizeof(double), n*n);
+        struct timespec tstart={0,0},tend={0,0};
+        char TRANS = 'N';
+        int INFO = n;
+        int LDA = n;
+        int LDB = n;
+        int N = n;
+        int NRHS = 1;
+        int *IPIV = (int *)calloc(sizeof(int),n);
+        double  *arrA, *arrA1, *arrB, *arrB1, *arrA2, *arrB2, *x, *y, *abk, *tempv;
+        int *pvt;
+        char     SIDE = 'L';
+        char     UPLO = 'L';
+        char     DIAG = 'U';
+        int      M    = 1;
+        double   a    = 1.0;
+        arrA = (double *)calloc(sizeof(double),n*n);
+        arrA1 = (double *)calloc(sizeof(double),n*n);
+        arrB = (double *)calloc(sizeof(double),n);
+        arrB1 = (double *)calloc(sizeof(double), n);
+        tempv = (double *)calloc(sizeof(double), n);
+        x = (double *)calloc(sizeof(double), n);
+        y = (double *)calloc(sizeof(double), n);
         pvt = (int *)calloc(sizeof(int), n);
-        for(k=0;k<n;k++){
-            pvt[k]=k;
+        for(m=0;m<n;m++){
+            pvt[m]=m;
         }
-        assignMatVal(arrA, n*n, ubound, lbound);
-        assignMatVal(arrB, n, ubound, lbound);
-        clock_gettime(CLOCK_MONOTONIC, &tstart);
-        mydgetrf(arrA,pvt,n,block);
-        clock_gettime(CLOCK_MONOTONIC, &tend);
-        printf("\nSize = %d\n",n);
-
+        assignMatVal(arrA,n*n,ubound,lbound);
+        copyMatrix(arrA,arrA1,n*n);
+        assignMatVal(arrB,n,ubound,lbound);
+        // printArray(arrB,n,1);
+        for(k=0;k<n;k++){
+            arrB1[k] = arrB[k];
+        }
+        printf("\nLAPACK LIBRARY\n");
+        clock_gettime(CLOCK_MONOTONIC,&tstart);
+        LAPACK_dgetrf(&N,&N,arrA,&LDA,IPIV,&INFO);
+        clock_gettime(CLOCK_MONOTONIC,&tend);
         time = ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
-        printf("\nCPU time for LU factorisation is %.5f\n",time);
+        // This function solve the Ax=B directly
+        //dgetrs_(&TRANS,&N,&NRHS,A,&LDA,IPIV,B,&LDB,&INFO);
+
+        // change the order of B according to IPIV[] from LU factorization
+
+        for(i = 0; i < N; i++)
+        {
+            double tmp = arrB[IPIV[i]-1];
+        	arrB[IPIV[i]-1] = arrB[i];
+        	arrB[i] = tmp;
+        }
+
+        // forward  L(Ux) = B => y = Ux
+        dtrsm_(&SIDE,&UPLO,&TRANS,&DIAG,&N,&M,&a,arrA, &N, arrB, &N);
+        UPLO = 'U';
+        DIAG = 'N';
+
+        // backward Ux = y
+        dtrsm_(&SIDE,&UPLO,&TRANS,&DIAG,&N,&M,&a,arrA, &N, arrB, &N);
+
+        // printf("print the result : {\n");
+        // for (i=0;i<N;i++)
+        // {
+    	//        printf("%f ",arrB[i]);
+        // }
+        printf("Size N = %d\n",n);
+        printf("Time Taken = %.5f seconds\n",time);
         gflops = (2*pow(n,3))/(3*time*pow(10,9));
         printf("\nPerformance in GFLOPS = %f\n",gflops);
-        mydtrsm(n,arrA,arrB,pvt,x,y,0);
-        mydtrsm(n,arrA,arrB,pvt,x,y,1);
-        free(arrA);
-        free(arrB);
+        // printf("\n");
+        // printArray(x,n,1);
+        // printf("\n");
+        printf("\nBLOCKED GEPP \n");
+        printf("\nSize N = %d\n",n);
         free(pvt);
         free(x);
         free(y);
-        free(abk);
+        free(tempv);
+        for(k=0;k<blockLen;k++){
+            arrA2 = (double *)calloc(sizeof(double),n*n);
+            arrB2 = (double *)calloc(sizeof(double),n);
+            tempv = (double *)calloc(sizeof(double),n);
+            x = (double *)calloc(sizeof(double), n);
+            y = (double *)calloc(sizeof(double), n);
+            pvt = (int *)calloc(sizeof(int), n);
+            for(m=0;m<n;m++){
+                pvt[m]=m;
+            }
+            copyMatrix(arrA1,arrA2,n*n);
+            copyMatrix(arrB1,arrB2,n);
+            // printArray(arrB2,n,1);
+            clock_gettime(CLOCK_MONOTONIC, &tstart);
+            mydgetrfBlock(arrA2,pvt,tempv,n,block[k]);
+            clock_gettime(CLOCK_MONOTONIC, &tend);
+            printf("Block Size = %d",block[k]);
+            time = ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
+            printf("\nCPU time for LU factorisation is %.5f\n",time);
+            gflops = (2*pow(n,3))/(3*time*pow(10,9));
+            printf("\nPerformance in GFLOPS = %f\n",gflops);
+            mydtrsm_f(n,arrA2,arrB2,pvt,x,y);
+            mydtrsm_b(n,arrA2,arrB2,pvt,x,y);
+            // printf("\n");
+            // printArray(x,n,1);
+            // printf("\n");
+            checkCorrectness(arrB,x,n);
+            free(pvt);
+            free(x);
+            free(y);
+            free(arrA2);
+            free(arrB2);
+            free(tempv);
+        }
+        free(arrA);
+        free(arrB);
+        free(arrA1);
+        free(arrB1);
+        free(IPIV);
         printf("\n");
     }
     return 0;
