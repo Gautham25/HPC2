@@ -196,8 +196,8 @@ int main()
             printf("\nCPU time for LU factorization n=%d is %f",n,cpu_time);
             gflops=(2*pow(n,3))/(3*cpu_time*pow(10,9));
             printf("\nthe gflops used are=%f",gflops);
-            //mydtrsm_f(n,a,B,pvt,x,y);
-            //mydtrsm_b(n,a,B,pvt,x,y);
+            mydtrsm_f(n,a,B,pvt,x,y);
+            mydtrsm_b(n,a,B,pvt,x,y);
         }
         IPIV = (int *)calloc(sizeof(int),n);
         char    TRANS = 'N';
@@ -232,11 +232,11 @@ int main()
         DIAG = 'N';
         // backward Ux = y
         dtrsm_(&SIDE,&UPLO,&TRANS,&DIAG,&n,&M,&b,a1, &n, B1, &n);
-        // for(i=0;i<n;i++){
-        //    difference=(abs)(B1[i]-x[i]);
-        //    if(difference>error)
-        //         error=difference;
-        // }
+        for(i=0;i<n;i++){
+           difference=(abs)(B1[i]-x[i]);
+           if(difference>error)
+                error=difference;
+        }
         printf("\n the error value for n=%d is %f ",n,error);
 
     }
