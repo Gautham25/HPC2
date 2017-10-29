@@ -287,18 +287,18 @@ int main(){
             // printArray(x,n,1);
             // printf("\n");
             checkCorrectness(arrB,x,n);
-            free(pvt);
-            free(x);
-            free(y);
-            free(arrA2);
-            free(arrB2);
-            free(tempv);
+            // free(pvt);
+            // free(x);
+            // free(y);
+            // free(arrA2);
+            // free(arrB2);
+            // free(tempv);
         }
-        free(arrA);
-        free(arrB);
-        free(arrA1);
-        free(arrB1);
-        free(IPIV);
+        // free(arrA);
+        // free(arrB);
+        // free(arrA1);
+        // free(arrB1);
+        // free(IPIV);
         printf("\n");
     }
     return 0;
