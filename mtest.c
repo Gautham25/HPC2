@@ -61,12 +61,12 @@ void mydgetrf(double *a,int *pvt,int n,int block,double *tempv){
                     pvt[i] = pvt[maxind];
                     pvt[maxind] = temps;
 
-                    for(k=0;k<n;i++)
-                    {
-                        tempv[k]=a[i*n+k];
-                        a[i*n+k]=a[maxind*n+k];
-                        a[maxind*n+k]=tempv[k];
-                    }
+                    // for(k=0;k<n;i++)
+                    // {
+                    //     tempv[k]=a[i*n+k];
+                    //     a[i*n+k]=a[maxind*n+k];
+                    //     a[maxind*n+k]=tempv[k];
+                    // }
                 }
            }
 
