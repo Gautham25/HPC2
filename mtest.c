@@ -4,6 +4,7 @@
 #include<math.h>
 #include "lapacke.h"
 #include "blas.h"
+
 double Random_gen( int upper, int lower)
 {
     double s;
@@ -124,9 +125,7 @@ void mydgetrf(double *a,int *pvt,int n,int block,double *tempv)
             }
             free(ll);
     }
-
-
-    }
+}
 //forward substitution
 void mydtrsm_f(int n, double *a, double *B, int *pvt, double *x, double *y){
     double sum;
@@ -158,21 +157,23 @@ void mydtrsm_b(int n, double *a, double *B, int *pvt, double *x, double *y){
 int main()
 {
     srand((double)time(NULL));
-    int *pvt,n,k,i,j,*IPIV;
+    int *pvt,*IPIV;
+    int n,k,i,j;
     double ran=Random_gen(10,1);
-    double *a,*B,*a1,*B1,*x,*y,*tempv,difference,error=0.0;
+    double *a,*B,*a1,*B1,*x,*y,*tempv;
+    double difference,error=0.0;
     double gflops,cpu_time;
     struct timespec cstart = {0,0}, cend ={0,0};
     int block[1]={2};//50,100,200,500};
-    for(n=1000;n<2000;n=n+1000)//loop for n values
+    for(n=100;n<200;n=n+1000)//loop for n values
     {
         for(k=0;k<1;k++)// loop for block_size
         {
             a=(double *) calloc(sizeof(double), n*n);
-            B=(double *) calloc(sizeof(double), n*1);
+            B=(double *) calloc(sizeof(double), n);
             a1=(double *) calloc(sizeof(double), n*n);
-            B1=(double *) calloc(sizeof(double), n*1);
-            pvt=(int *) calloc(sizeof(int), 1*n);
+            B1=(double *) calloc(sizeof(double), n);
+            pvt=(int *) calloc(sizeof(int), n);
             y=(double *) calloc(sizeof(double), n);
             x=(double *) calloc(sizeof(double), n);
             tempv=(double *) calloc(sizeof(double), n);
@@ -190,14 +191,14 @@ int main()
             }
 
             clock_gettime(CLOCK_MONOTONIC, &cstart);
-            mydgetrf(a,pvt,n,block[k],tempv);
+            //mydgetrf(a,pvt,n,block[k],tempv);
             clock_gettime(CLOCK_MONOTONIC, &cend);
             cpu_time=((double)cend.tv_sec + 1.0e-9*cend.tv_nsec) - ((double)cstart.tv_sec + 1.0e-9*cstart.tv_nsec);
             printf("\nCPU time for LU factorization n=%d is %f",n,cpu_time);
             gflops=(2*pow(n,3))/(3*cpu_time*pow(10,9));
             printf("\nthe gflops used are=%f",gflops);
-            mydtrsm_f(n,a,B,pvt,x,y);
-            mydtrsm_b(n,a,B,pvt,x,y);
+            //mydtrsm_f(n,a,B,pvt,x,y);
+            //mydtrsm_b(n,a,B,pvt,x,y);
         }
         IPIV = (int *)calloc(sizeof(int),n);
         char    TRANS = 'N';
