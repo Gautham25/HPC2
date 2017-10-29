@@ -184,10 +184,10 @@ void mydtrsm_b(int n, double *arrA, double *arrB, int *pvt, double *x, double *y
 
 int main(){
     srand((double)time(NULL));
-    int *pvt,n,i,k,m;
+    int *pvt,n,i,k,m,z;
     int ubound = 100, lbound = 0;
     int arrN[] = {1000,2000,3000,4000,5000};
-    int block[] = {50,100,200,300,400,500};
+    int block[] = {50,100,200,500};
     double random = randomNumber(ubound,lbound);
     double time,gflops;
     int len = sizeof(arrN)/sizeof(arrN[0]);
@@ -232,11 +232,11 @@ int main(){
 
         // change the order of B according to IPIV[] from LU factorization
 
-        for(i = 0; i < N; i++)
+        for(z = 0; z < N; i++)
         {
-            double tmp = arrB[IPIV[i]-1];
-        	arrB[IPIV[i]-1] = arrB[i];
-        	arrB[i] = tmp;
+            double tmp = arrB[IPIV[z]-1];
+        	arrB[IPIV[z]-1] = arrB[z];
+        	arrB[z] = tmp;
         }
 
         // forward  L(Ux) = B => y = Ux
@@ -288,18 +288,18 @@ int main(){
             // printArray(x,n,1);
             // printf("\n");
             checkCorrectness(arrB,x,n);
-            // free(pvt);
-            // free(x);
-            // free(y);
-            // free(arrA2);
-            // free(arrB2);
-            // free(tempv);
+            free(pvt);
+            free(x);
+            free(y);
+            free(arrA2);
+            free(arrB2);
+            free(tempv);
         }
-        // free(arrA);
-        // free(arrB);
-        // free(arrA1);
-        // free(arrB1);
-        // free(IPIV);
+        free(arrA);
+        free(arrB);
+        free(arrA1);
+        free(arrB1);
+        free(IPIV);
         printf("\n");
     }
     return 0;
