@@ -52,31 +52,31 @@ void mydgetrf(double *a,int *pvt,int n,int block,double *tempv){
             printf("LU factorization failed:coefficient matrix is singular");
             return;
            }
-        //    else
-        //    {
-           // 
-        //         if(maxind != i)
-        //         {   //save pivoting information
-        //             temps = pvt[i];
-        //             pvt[i] = pvt[maxind];
-        //             pvt[maxind] = temps;
-           // 
-        //             for(k=0;k<n;i++)
-        //             {
-        //                 tempv[k]=a[i*n+k];
-        //                 a[i*n+k]=a[maxind*n+k];
-        //                 a[maxind*n+k]=tempv[k];
-        //             }
-        //         }
-        //    }
-           // 
-        //     for(j=i+1;j<n;j++)
-        //     {
-        //         a[j*n+i]=a[j*n+i]/a[i*n+i];
-        //         for(k=i+1;k<=end;k++){
-        //             a[j*n+k]=a[j*n+k]-(a[j*n+i]*a[i*n+k]);
-        //         }
-        //     }
+           else
+           {
+
+                if(maxind != i)
+                {   //save pivoting information
+                    temps = pvt[i];
+                    pvt[i] = pvt[maxind];
+                    pvt[maxind] = temps;
+
+                    for(k=0;k<n;i++)
+                    {
+                        tempv[k]=a[i*n+k];
+                        a[i*n+k]=a[maxind*n+k];
+                        a[maxind*n+k]=tempv[k];
+                    }
+                }
+           }
+
+            // for(j=i+1;j<n;j++)
+            // {
+            //     a[j*n+i]=a[j*n+i]/a[i*n+i];
+            //     for(k=i+1;k<=end;k++){
+            //         a[j*n+k]=a[j*n+k]-(a[j*n+i]*a[i*n+k]);
+            //     }
+            // }
         }
         //factorizing
 
