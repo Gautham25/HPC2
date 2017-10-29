@@ -164,7 +164,7 @@ int main()
     double gflops,cpu_time;
     struct timespec cstart = {0,0}, cend ={0,0};
     int block[1]={2};//50,100,200,500};
-    for(n=100;n<200;n=n+1000)//loop for n values
+    for(n=1000;n<6000;n=n+1000)//loop for n values
     {
         for(k=0;k<1;k++)// loop for block_size
         {
