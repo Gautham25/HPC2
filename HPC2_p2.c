@@ -221,7 +221,7 @@ int main(){
         for(k=0;k<n;k++){
             arrB1[k] = arrB[k];
         }
-        traspose(arrA,n);
+        transpose(arrA,n);
         printf("\nLAPACK LIBRARY\n");
         clock_gettime(CLOCK_MONOTONIC,&tstart);
         LAPACK_dgetrf(&N,&N,arrA,&LDA,IPIV,&INFO);
