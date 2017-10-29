@@ -71,7 +71,7 @@ void mydgetrf(double *a,int *pvt,int n,int block,double *tempv)
            }
 
             for(j=i+1;j<n;j++)
-            {     
+            {
                 a[j*n+i]=a[j*n+i]/a[i*n+i];
                 for(k=i+1;k<=end;k++){
                     a[j*n+k]=a[j*n+k]-(a[j*n+i]*a[i*n+k]);
@@ -79,7 +79,7 @@ void mydgetrf(double *a,int *pvt,int n,int block,double *tempv)
             }
         }
         //factorizing
-         
+
         //ll inverse
         ll = (double*)calloc(sizeof(double), block*block);
             p=0;q=0;
@@ -149,7 +149,7 @@ void mydtrsm_b(int n, double *a, double *B, int *pvt, double *x, double *y){
         sum=0.0;
         for(k=i+1;k<n;k++){
             sum+= x[k]*a[i*n+k];
-        }    
+        }
         x[i] = (y[i]-sum)/a[i*n+i];
     }
 }
@@ -166,7 +166,8 @@ int main()
     int block[1]={2};//50,100,200,500};
     for(n=1000;n<2000;n=n+1000)//loop for n values
     {
-        for(k=0;k<1;k++)// loop for block_size{
+        for(k=0;k<1;k++)// loop for block_size
+        {
             a=(double *) calloc(sizeof(double), n*n);
             B=(double *) calloc(sizeof(double), n*1);
             a1=(double *) calloc(sizeof(double), n*n);
@@ -175,7 +176,7 @@ int main()
             y=(double *) calloc(sizeof(double), n);
             x=(double *) calloc(sizeof(double), n);
             tempv=(double *) calloc(sizeof(double), n);
-                  
+
             for(i=0;i<n;i++)
                 for(j=0;j<n;j++)
                 {
@@ -187,7 +188,7 @@ int main()
                 B1[i]=B[i];
                 pvt[i]=i;
             }
-           
+
             clock_gettime(CLOCK_MONOTONIC, &cstart);
             mydgetrf(a,pvt,n,block[k],tempv);
             clock_gettime(CLOCK_MONOTONIC, &cend);
@@ -196,7 +197,7 @@ int main()
             gflops=(2*pow(n,3))/(3*cpu_time*pow(10,9));
             printf("\nthe gflops used are=%f",gflops);
             mydtrsm_f(n,a,B,pvt,x,y);
-            mydtrsm_b(n,a,B,pvt,x,y); 
+            mydtrsm_b(n,a,B,pvt,x,y);
         }
         IPIV = (int *)calloc(sizeof(int),n);
         char    TRANS = 'N';
@@ -237,7 +238,7 @@ int main()
                 error=difference;
         }
         printf("\n the error value for n=%d is %f ",n,error);
-   
+
     }
     return 0;
 }
