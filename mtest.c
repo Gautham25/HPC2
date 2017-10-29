@@ -125,7 +125,7 @@ void transpose(double *a, int n){
 //             free(ll);
 //     }
 // }
-void mydgetrf(double *arrA,int *pvt, double *tempv, int n, int b){
+void mydgetrf(double *arrA,int *pvt, int n, int b, double *tempv){
     int i,t,l,m,p,q,j,k,maxind,temps,end,ib;
     double max, matsum;
     double *ll;
