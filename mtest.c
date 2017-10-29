@@ -25,106 +25,194 @@ void transpose(double *a, int n){
         }
     }
 }
-void mydgetrf(double *a,int *pvt,int n,int block,double *tempv)
-{
-    int maxind,temps,ib,end,i,t,k,j,p,q,l,m;
-    double max,sum;
+// void mydgetrf(double *a,int *pvt,int n,int block,double *tempv){
+//     int maxind,temps,ib,end,i,t,k,j,p,q,l,m;
+//     double max,sum;
+//     double *ll;
+//     for(ib=0;ib<n;ib+=block)
+//     {
+//         end=(block-1)+ib;
+//         for(i=ib;i<=end;i++)
+//         {
+//            maxind=i;
+//            max=abs(a[i*n+i]);
+//            for(t=i+1;t<n;t++)
+//            {
+//
+//                 if(abs(a[t*n+i])>max)
+//                  {
+//                      maxind=t;
+//                      max=abs(a[t*n+i]);
+//
+//                  }
+//            }
+//            if(max==0.0)
+//            {
+//
+//             printf("LU factorization failed:coefficient matrix is singular");
+//             return;
+//            }
+//            else
+//            {
+//
+//                 if(maxind!=i)
+//                 {   //save pivoting information
+//                     temps=pvt[i];
+//                     pvt[i]=pvt[maxind];
+//                     pvt[maxind]=temps;
+//
+//                     for(k=0;k<n;i++)
+//                     {
+//                         tempv[k]=a[i*n+k];
+//                         a[i*n+k]=a[maxind*n+k];
+//                         a[maxind*n+k]=tempv[k];
+//                     }
+//                 }
+//            }
+//
+//             for(j=i+1;j<n;j++)
+//             {
+//                 a[j*n+i]=a[j*n+i]/a[i*n+i];
+//                 for(k=i+1;k<=end;k++){
+//                     a[j*n+k]=a[j*n+k]-(a[j*n+i]*a[i*n+k]);
+//                 }
+//             }
+//         }
+//         //factorizing
+//
+//         //ll inverse
+//         ll = (double*)calloc(sizeof(double), block*block);
+//             p=0;q=0;
+//             for(l=ib;l<=end;l++){
+//                 for(m=ib;m<=end;m++){
+//                     if(l>m){
+//                         ll[p*block+q] = a[l*n+m] * (-1);
+//                     }
+//                     else if(l==m){
+//                         ll[p*block+q] = 1;
+//                     }
+//                     else{
+//                         ll[p*block+q] = 0;
+//                     }
+//                     q++;
+//                 }
+//                 p++;
+//                 q=0;
+//             }
+//             p=0;q=0;
+//             for(j=ib;j<=end;j++){
+//                 for(k=end+1;k<n;k++){
+//                         sum=0.0;
+//                     for(m=ib;m<=end;m++){
+//                         sum+= ll[p*block+q] * a[m*n+k];
+//                         q++;
+//                     }
+//                     a[j*n+k]=sum;
+//                     q=0;
+//                 }
+//                 p++;
+//                 q=0;
+//             }
+//             for(j=end+1;j<n;j++){
+//                 for(k=end+1;k<n;k++){
+//                     double store=0.0;
+//                     for(l=ib;l<=end;l++){
+//                         store+=a[j*n+l]*a[l*n+k];
+//                     }
+//                     a[j*n+k]-=store;
+//                 }
+//             }
+//             free(ll);
+//     }
+// }
+void mydgetrf(double *arrA,int *pvt, double *tempv, int n, int b){
+    int i,t,l,m,p,q,j,k,maxind,temps,end,ib;
+    double max, matsum;
     double *ll;
-    for(ib=0;ib<n;ib+=block)
-    {
-        end=(block-1)+ib;
-        for(i=ib;i<=end;i++)
-        {
-           maxind=i;
-           max=abs(a[i*n+i]);
-           for(t=i+1;t<n;t++)
-           {
-
-                if(abs(a[t*n+i])>max)
-                 {
-                     maxind=t;
-                     max=abs(a[t*n+i]);
-
-                 }
-           }
-           if(max==0.0)
-           {
-
-            printf("LU factorization failed:coefficient matrix is singular");
-            return;
-           }
-           else
-           {
-
-                if(maxind!=i)
-                {   //save pivoting information
-                    temps=pvt[i];
-                    pvt[i]=pvt[maxind];
-                    pvt[maxind]=temps;
-
-                    for(k=0;k<n;i++)
-                    {
-                        tempv[k]=a[i*n+k];
-                        a[i*n+k]=a[maxind*n+k];
-                        a[maxind*n+k]=tempv[k];
+    for(ib=0;ib<n;ib+=b){
+        end = ib + b-1;
+        for(i=ib;i<=end;i++){
+            maxind = i;
+            max=abs(arrA[i*n+i]);
+            for(t=i+1;t<n;t++){
+                if(abs(arrA[t*n+i])>max){
+                    maxind = t;
+                    max = abs(arrA[t*n+i]);
+                }
+            }
+            if(max==0.0){
+                //printf("LU factorization failed: coefficient matrix is singular\n");
+                return;
+            }
+            else{
+                if(maxind != i){
+                    //Save pivoting information
+                    temps = pvt[i];
+                    pvt[i] = pvt[maxind];
+                    pvt[maxind] = temps;
+                    //Swap rows
+                    for(k=0;k<n;k++){
+                        tempv[k] = arrA[i*n+k];
+                        arrA[i*n+k] = arrA[maxind*n+k];
+                        arrA[maxind*n+k] = tempv[k];
                     }
                 }
-           }
+            }
 
-            for(j=i+1;j<n;j++)
-            {
-                a[j*n+i]=a[j*n+i]/a[i*n+i];
+            for(j=i+1;j<n;j++){
+                arrA[j*n+i] = arrA[j*n+i]/arrA[i*n+i];
                 for(k=i+1;k<=end;k++){
-                    a[j*n+k]=a[j*n+k]-(a[j*n+i]*a[i*n+k]);
+                    arrA[j*n+k] = arrA[j*n+k] - arrA[j*n+i] * arrA[i*n+k];
                 }
             }
         }
-        //factorizing
 
-        //ll inverse
-        ll = (double*)calloc(sizeof(double), block*block);
-            p=0;q=0;
-            for(l=ib;l<=end;l++){
+        ll = (double*)calloc(sizeof(double), b*b);
+        //double *lln = (double*)calloc(sizeof(double), b*b);
+        p=0;q=0;
+        for(l=ib;l<=end;l++){
+            for(m=ib;m<=end;m++){
+                if(l>m){
+                    ll[p*b+q] = arrA[l*n+m] * (-1);
+                }
+                else if(l==m){
+                    ll[p*b+q] = 1;
+                }
+                else{
+                    ll[p*b+q] = 0;
+                }
+                q++;
+            }
+            p++;
+            q=0;
+        }
+        p=0;q=0;
+        for(j=ib;j<=end;j++){
+            for(k=end+1;k<n;k++){
+                matsum = 0.0;
                 for(m=ib;m<=end;m++){
-                    if(l>m){
-                        ll[p*block+q] = a[l*n+m] * (-1);
-                    }
-                    else if(l==m){
-                        ll[p*block+q] = 1;
-                    }
-                    else{
-                        ll[p*block+q] = 0;
-                    }
+                    matsum += ll[p*b+q] * arrA[m*n+k];
                     q++;
                 }
-                p++;
+                arrA[j*n+k] = matsum;
                 q=0;
             }
-            p=0;q=0;
-            for(j=ib;j<=end;j++){
-                for(k=end+1;k<n;k++){
-                        sum=0.0;
-                    for(m=ib;m<=end;m++){
-                        sum+= ll[p*block+q] * a[m*n+k];
-                        q++;
-                    }
-                    a[j*n+k]=sum;
-                    q=0;
+            p++;
+            q=0;
+        }
+        for(j=end+1;j<n;j++){
+            for(k=end+1;k<n;k++){
+                double gmat = 0.0;
+                for(l=ib;l<=end;l++){
+                    gmat += arrA[j*n+l] * arrA[l*n+k];
                 }
-                p++;
-                q=0;
+                arrA[j*n+k] -= gmat;
             }
-            for(j=end+1;j<n;j++){
-                for(k=end+1;k<n;k++){
-                    double store=0.0;
-                    for(l=ib;l<=end;l++){
-                        store+=a[j*n+l]*a[l*n+k];
-                    }
-                    a[j*n+k]-=store;
-                }
-            }
-            free(ll);
+        }
+        free(ll);
     }
+
+            //free(lln);
 }
 //forward substitution
 void mydtrsm_f(int n, double *a, double *B, int *pvt, double *x, double *y){
@@ -197,8 +285,8 @@ int main()
             printf("\nCPU time for LU factorization n=%d is %f",n,cpu_time);
             gflops=(2*pow(n,3))/(3*cpu_time*pow(10,9));
             printf("\nthe gflops used are=%f",gflops);
-            //mydtrsm_f(n,a,B,pvt,x,y);
-            //mydtrsm_b(n,a,B,pvt,x,y);
+            mydtrsm_f(n,a,B,pvt,x,y);
+            mydtrsm_b(n,a,B,pvt,x,y);
         }
         IPIV = (int *)calloc(sizeof(int),n);
         char    TRANS = 'N';
