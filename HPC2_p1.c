@@ -246,7 +246,7 @@ int main()
         printf("Time Taken = %.5f seconds\n",time);
         printf("\nPerformance in GFLOPS = %f\n",gflops);
         printf("\n");
-        checkCorrectness(arrB,x)
+        checkCorrectness(arrB,x,n);
         free(arrA);
         free(arrB);
         free(arrA1);
