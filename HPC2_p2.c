@@ -186,7 +186,7 @@ int main(){
     srand((double)time(NULL));
     int *pvt,n,i,k,m,z;
     int ubound = 100, lbound = 0;
-    int arrN[] = {10};//,2000,3000,4000,5000};
+    int arrN[] = {1000,2000,3000,4000,5000};
     int block[] = {2};
     double random = randomNumber(ubound,lbound);
     double time,gflops;
@@ -261,13 +261,14 @@ int main(){
         // printf("\n");
         printf("\nBLOCKED GEPP \n");
         printf("\nSize N = %d\n",n);
+        arrA2 = (double *)calloc(sizeof(double),n*n);
+        arrB2 = (double *)calloc(sizeof(double),n);
+        tempv = (double *)calloc(sizeof(double),n);
+        x = (double *)calloc(sizeof(double), n);
+        y = (double *)calloc(sizeof(double), n);
+        pvt = (int *)calloc(sizeof(int), n);
         for(k=0;k<blockLen;k++){
-            arrA2 = (double *)calloc(sizeof(double),n*n);
-            arrB2 = (double *)calloc(sizeof(double),n);
-            tempv = (double *)calloc(sizeof(double),n);
-            x = (double *)calloc(sizeof(double), n);
-            y = (double *)calloc(sizeof(double), n);
-            pvt = (int *)calloc(sizeof(int), n);
+
             for(m=0;m<n;m++){
                 pvt[m]=m;
             }
@@ -288,13 +289,14 @@ int main(){
             // printArray(x,n,1);
             // printf("\n");
             checkCorrectness(arrB,x,n);
-            free(pvt);
-            free(x);
-            free(y);
-            free(arrA2);
-            free(arrB2);
-            free(tempv);
+
         }
+        free(pvt);
+        free(x);
+        free(y);
+        free(arrA2);
+        free(arrB2);
+        free(tempv);
         free(arrA);
         free(arrB);
         free(arrA1);
