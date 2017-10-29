@@ -63,14 +63,14 @@ void mydgetrf(double *arrA,int *pvt, double *tempv, int n){
 void mydtrsm_f(int n, double *arrA, double *arrB, int *pvt, double *x, double *y){
     double sum = 0.0, temp;
     int i,k;
-        y[0] = arrB[pvt[0]];
-        for(i=1;i<n;i++){
-            sum = 0.0;
-            for(k=0;k<i;k++){
-                sum += y[k]*arrA[i*n+k];
-            }
-            y[i] = arrB[pvt[i]]-sum;
+    y[0] = arrB[pvt[0]];
+    for(i=1;i<n;i++){
+        sum = 0.0;
+        for(k=0;k<i;k++){
+            sum += y[k]*arrA[i*n+k];
         }
+        y[i] = arrB[pvt[i]]-sum;
+    }
 }
 
 void mydtrsm_b(int n, double *arrA, double *arrB, int *pvt, double *x, double *y){
@@ -246,7 +246,7 @@ int main()
         printf("Time Taken = %.5f seconds\n",time);
         printf("\nPerformance in GFLOPS = %f\n",gflops);
         printf("\n");
-        //printArray(x,n,1);
+        checkCorrectness(arrB,x)
         free(arrA);
         free(arrB);
         free(arrA1);
