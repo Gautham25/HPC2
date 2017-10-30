@@ -163,7 +163,7 @@ int main()
     double difference,error=0.0;
     double gflops,cpu_time;
     struct timespec cstart = {0,0}, cend ={0,0};
-    int block[1]={200};
+    int block[1]={500};
     for(n=1000;n<6000;n=n+1000)//loop for n values
     {
         for(k=0;k<1;k++)// loop for block_size
