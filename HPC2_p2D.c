@@ -188,109 +188,108 @@ int main(){
     double time,gflops;
     int len = sizeof(arrN)/sizeof(arrN[0]);
     int blockLen = sizeof(block)/sizeof(block[0]);
-    printf("\nHello\n");
-    // for(i=0;i<5;i++){
-    //     n = arrN[i];
-    //     struct timespec tstart={0,0},tend={0,0};
-    //     char TRANS = 'N';
-    //     int INFO = n;
-    //     int LDA = n;
-    //     int LDB = n;
-    //     int N = n;
-    //     int NRHS = 1;
-    //     int *IPIV = (int *)calloc(sizeof(int),n);
-    //     double  *arrA, *arrA1, *arrB, *arrB1, *arrA2, *arrB2, *x, *y, *abk, *tempv;
-    //     int *pvt;
-    //     char     SIDE = 'L';
-    //     char     UPLO = 'L';
-    //     char     DIAG = 'U';
-    //     int      M    = 1;
-    //     double   a    = 1.0;
-    //     arrA = (double *)calloc(sizeof(double),n*n);
-    //     arrA1 = (double *)calloc(sizeof(double),n*n);
-    //     arrB = (double *)calloc(sizeof(double),n);
-    //     arrB1 = (double *)calloc(sizeof(double), n);
-    //
-    //     assignMatVal(arrA,n*n,ubound,lbound);
-    //     copyMatrix(arrA,arrA1,n*n);
-    //     assignMatVal(arrB,n,ubound,lbound);
-    //     // printArray(arrB,n,1);
-    //     for(k=0;k<n;k++){
-    //         arrB1[k] = arrB[k];
-    //     }
-    //     transpose(arrA,n);
-    //     printf("\nLAPACK LIBRARY\n");
-    //     clock_gettime(CLOCK_MONOTONIC,&tstart);
-    //     LAPACK_dgetrf(&N,&N,arrA,&LDA,IPIV,&INFO);
-    //     clock_gettime(CLOCK_MONOTONIC,&tend);
-    //     time = ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
-    //     // This function solve the Ax=B directly
-    //     //dgetrs_(&TRANS,&N,&NRHS,A,&LDA,IPIV,B,&LDB,&INFO);
-    //
-    //     // change the order of B according to IPIV[] from LU factorization
-    //
-    //     for(z = 0; z < N; i++)
-    //     {
-    //         double tmp = arrB[IPIV[z]-1];
-    //             arrB[IPIV[z]-1] = arrB[z];
-    //             arrB[z] = tmp;
-    //     }
-    //
-    //     // forward  L(Ux) = B => y = Ux
-    //     dtrsm_(&SIDE,&UPLO,&TRANS,&DIAG,&N,&M,&a,arrA, &N, arrB, &N);
-    //     UPLO = 'U';
-    //     DIAG = 'N';
-    //
-    //     // backward Ux = y
-    //     dtrsm_(&SIDE,&UPLO,&TRANS,&DIAG,&N,&M,&a,arrA, &N, arrB, &N);
-    //
-    //     // printf("print the result : {\n");
-    //     // for (i=0;i<N;i++)
-    //     // {
-    //     //        printf("%f ",arrB[i]);
-    //     // }
-    //     printf("Size N = %d\n",n);
-    //     printf("Time Taken = %.5f seconds\n",time);
-    //     gflops = (2*pow(n,3))/(3*time*pow(10,9));
-    //     printf("\nPerformance in GFLOPS = %f\n",gflops);
-    //     // printf("\n");
-    //     // printArray(x,n,1);
-    //     // printf("\n");
-    //     printf("\nBLOCKED GEPP \n");
-    //     printf("\nSize N = %d\n",n);
-    //     arrA2 = (double *)calloc(sizeof(double),n*n);
-    //     arrB2 = (double *)calloc(sizeof(double),n);
-    //     tempv = (double *)calloc(sizeof(double),n);
-    //     x = (double *)calloc(sizeof(double), n);
-    //     y = (double *)calloc(sizeof(double), n);
-    //     pvt = (int *)calloc(sizeof(int), n);
-    //     for(k=0;k<1;k++){
-    //
-    //         for(m=0;m<n;m++){
-    //             pvt[m]=m;
-    //         }
-    //         copyMatrix(arrA1,arrA2,n*n);
-    //         copyMatrix(arrB1,arrB2,n);
-    //         // printArray(arrB2,n,1);
-    //         clock_gettime(CLOCK_MONOTONIC, &tstart);
-    //         mydgetrfBlock(arrA2,pvt,tempv,n,block[k]);
-    //         clock_gettime(CLOCK_MONOTONIC, &tend);
-    //         printf("Block Size = %d",block[k]);
-    //         time = ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
-    //         printf("\nCPU time for LU factorisation = %.5f\n",time);
-    //         gflops = (2*pow(n,3))/(3*time*pow(10,9));
-    //         printf("\nPerformance in GFLOPS = %f\n",gflops);
-    //         mydtrsm_f(n,arrA2,arrB2,pvt,x,y);
-    //         mydtrsm_b(n,arrA2,arrB2,pvt,x,y);
-    //         // printf("\n");
-    //         // printArray(x,n,1);
-    //         // printf("\n");
-    //         checkCorrectness(arrB,x,n);
-    //
-    //     }
-    //
-    //     printf("\n");
-    // }
+    for(i=0;i<5;i++){
+        n = arrN[i];
+        struct timespec tstart={0,0},tend={0,0};
+        char TRANS = 'N';
+        int INFO = n;
+        int LDA = n;
+        int LDB = n;
+        int N = n;
+        int NRHS = 1;
+        int *IPIV = (int *)calloc(sizeof(int),n);
+        double  *arrA, *arrA1, *arrB, *arrB1, *arrA2, *arrB2, *x, *y, *abk, *tempv;
+        int *pvt;
+        char     SIDE = 'L';
+        char     UPLO = 'L';
+        char     DIAG = 'U';
+        int      M    = 1;
+        double   a    = 1.0;
+        arrA = (double *)calloc(sizeof(double),n*n);
+        arrA1 = (double *)calloc(sizeof(double),n*n);
+        arrB = (double *)calloc(sizeof(double),n);
+        arrB1 = (double *)calloc(sizeof(double), n);
+
+        assignMatVal(arrA,n*n,ubound,lbound);
+        copyMatrix(arrA,arrA1,n*n);
+        assignMatVal(arrB,n,ubound,lbound);
+        // printArray(arrB,n,1);
+        for(k=0;k<n;k++){
+            arrB1[k] = arrB[k];
+        }
+        transpose(arrA,n);
+        printf("\nLAPACK LIBRARY\n");
+        // clock_gettime(CLOCK_MONOTONIC,&tstart);
+        // LAPACK_dgetrf(&N,&N,arrA,&LDA,IPIV,&INFO);
+        // clock_gettime(CLOCK_MONOTONIC,&tend);
+        // time = ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
+        // // This function solve the Ax=B directly
+        // //dgetrs_(&TRANS,&N,&NRHS,A,&LDA,IPIV,B,&LDB,&INFO);
+        //
+        // // change the order of B according to IPIV[] from LU factorization
+        //
+        // for(z = 0; z < N; i++)
+        // {
+        //     double tmp = arrB[IPIV[z]-1];
+        //         arrB[IPIV[z]-1] = arrB[z];
+        //         arrB[z] = tmp;
+        // }
+        //
+        // // forward  L(Ux) = B => y = Ux
+        // dtrsm_(&SIDE,&UPLO,&TRANS,&DIAG,&N,&M,&a,arrA, &N, arrB, &N);
+        // UPLO = 'U';
+        // DIAG = 'N';
+        //
+        // // backward Ux = y
+        // dtrsm_(&SIDE,&UPLO,&TRANS,&DIAG,&N,&M,&a,arrA, &N, arrB, &N);
+        //
+        // // printf("print the result : {\n");
+        // // for (i=0;i<N;i++)
+        // // {
+        // //        printf("%f ",arrB[i]);
+        // // }
+        // printf("Size N = %d\n",n);
+        // printf("Time Taken = %.5f seconds\n",time);
+        // gflops = (2*pow(n,3))/(3*time*pow(10,9));
+        // printf("\nPerformance in GFLOPS = %f\n",gflops);
+        // // printf("\n");
+        // // printArray(x,n,1);
+        // // printf("\n");
+        // printf("\nBLOCKED GEPP \n");
+        // printf("\nSize N = %d\n",n);
+        // arrA2 = (double *)calloc(sizeof(double),n*n);
+        // arrB2 = (double *)calloc(sizeof(double),n);
+        // tempv = (double *)calloc(sizeof(double),n);
+        // x = (double *)calloc(sizeof(double), n);
+        // y = (double *)calloc(sizeof(double), n);
+        // pvt = (int *)calloc(sizeof(int), n);
+        // for(k=0;k<1;k++){
+        //
+        //     for(m=0;m<n;m++){
+        //         pvt[m]=m;
+        //     }
+        //     copyMatrix(arrA1,arrA2,n*n);
+        //     copyMatrix(arrB1,arrB2,n);
+        //     // printArray(arrB2,n,1);
+        //     clock_gettime(CLOCK_MONOTONIC, &tstart);
+        //     mydgetrfBlock(arrA2,pvt,tempv,n,block[k]);
+        //     clock_gettime(CLOCK_MONOTONIC, &tend);
+        //     printf("Block Size = %d",block[k]);
+        //     time = ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
+        //     printf("\nCPU time for LU factorisation = %.5f\n",time);
+        //     gflops = (2*pow(n,3))/(3*time*pow(10,9));
+        //     printf("\nPerformance in GFLOPS = %f\n",gflops);
+        //     mydtrsm_f(n,arrA2,arrB2,pvt,x,y);
+        //     mydtrsm_b(n,arrA2,arrB2,pvt,x,y);
+        //     // printf("\n");
+        //     // printArray(x,n,1);
+        //     // printf("\n");
+        //     checkCorrectness(arrB,x,n);
+        //
+        // }
+        //
+        // printf("\n");
+    }
     // free(pvt);
     // free(x);
     // free(y);
