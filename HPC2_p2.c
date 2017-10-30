@@ -187,12 +187,12 @@ int main(){
     int *pvt,n,i,k,m,z;
     int ubound = 100, lbound = 0;
     int arrN[] = {1000,2000,3000,4000,5000};
-    int block[] = {2};
+    int block[] = {50};
     double random = randomNumber(ubound,lbound);
     double time,gflops;
     int len = sizeof(arrN)/sizeof(arrN[0]);
     int blockLen = sizeof(block)/sizeof(block[0]);
-    for(i=0;i<len;i++){
+    for(i=0;i<5;i++){
         n = arrN[i];
         struct timespec tstart={0,0},tend={0,0};
         char TRANS = 'N';
@@ -267,7 +267,7 @@ int main(){
         x = (double *)calloc(sizeof(double), n);
         y = (double *)calloc(sizeof(double), n);
         pvt = (int *)calloc(sizeof(int), n);
-        for(k=0;k<blockLen;k++){
+        for(k=0;k<1;k++){
 
             for(m=0;m<n;m++){
                 pvt[m]=m;
@@ -291,18 +291,19 @@ int main(){
             checkCorrectness(arrB,x,n);
 
         }
-        free(pvt);
-        free(x);
-        free(y);
-        free(arrA2);
-        free(arrB2);
-        free(tempv);
-        free(arrA);
-        free(arrB);
-        free(arrA1);
-        free(arrB1);
-        free(IPIV);
+
         printf("\n");
     }
+    free(pvt);
+    free(x);
+    free(y);
+    free(arrA2);
+    free(arrB2);
+    free(tempv);
+    free(arrA);
+    free(arrB);
+    free(arrA1);
+    free(arrB1);
+    free(IPIV);
     return 0;
 }
