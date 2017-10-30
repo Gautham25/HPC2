@@ -224,13 +224,13 @@ int main(){
         }
         transpose(arrA,n);
         printf("\nLAPACK LIBRARY\n");
-        // clock_gettime(CLOCK_MONOTONIC,&tstart);
-        // LAPACK_dgetrf(&N,&N,arrA,&LDA,IPIV,&INFO);
-        // clock_gettime(CLOCK_MONOTONIC,&tend);
-        // time = ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
-        // // This function solve the Ax=B directly
-        // //dgetrs_(&TRANS,&N,&NRHS,A,&LDA,IPIV,B,&LDB,&INFO);
-        //
+        clock_gettime(CLOCK_MONOTONIC,&tstart);
+        LAPACK_dgetrf(&N,&N,arrA,&LDA,IPIV,&INFO);
+        clock_gettime(CLOCK_MONOTONIC,&tend);
+        time = ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
+        // This function solve the Ax=B directly
+        //dgetrs_(&TRANS,&N,&NRHS,A,&LDA,IPIV,B,&LDB,&INFO);
+
         // // change the order of B according to IPIV[] from LU factorization
         //
         // for(z = 0; z < N; i++)
