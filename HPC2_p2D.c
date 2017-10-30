@@ -225,7 +225,6 @@ int main(){
         clock_gettime(CLOCK_MONOTONIC,&tstart);
         LAPACK_dgetrf(&N,&N,arrA,&LDA,IPIV,&INFO);
         clock_gettime(CLOCK_MONOTONIC,&tend);
-        printArray(arrA,n,2);
         time = ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
         // This function solve the Ax=B directly
         //dgetrs_(&TRANS,&N,&NRHS,A,&LDA,IPIV,B,&LDB,&INFO);
