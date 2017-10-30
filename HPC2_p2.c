@@ -294,16 +294,16 @@ int main(){
 
         printf("\n");
     }
-    free(pvt);
-    free(x);
-    free(y);
-    free(arrA2);
-    free(arrB2);
-    free(tempv);
-    free(arrA);
-    free(arrB);
-    free(arrA1);
-    free(arrB1);
-    free(IPIV);
+    // free(pvt);
+    // free(x);
+    // free(y);
+    // free(arrA2);
+    // free(arrB2);
+    // free(tempv);
+    // free(arrA);
+    // free(arrB);
+    // free(arrA1);
+    // free(arrB1);
+    // free(IPIV);
     return 0;
 }
