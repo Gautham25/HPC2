@@ -184,8 +184,8 @@ int main(){
     srand((double)time(NULL));
     int *pvt,n,i,k,m,z;
     int ubound = 100, lbound = 0;
-    int arrN[] = {4};//00,2000,3000,4000,5000};
-    int block[] = {2};
+    int arrN[] = {1000,2000,3000,4000,5000};
+    int block[] = {10,20,40,50,100,200,500};
     double random = randomNumber(ubound,lbound);
     double time,gflops;
     int len = sizeof(arrN)/sizeof(arrN[0]);
@@ -232,11 +232,11 @@ int main(){
 
         // change the order of B according to IPIV[] from LU factorization
 
-        for(z = 0; z < N; i++)
+        for(z = 0; z < N; z++)
         {
             double tmp = arrB[IPIV[z]-1];
-                arrB[IPIV[z]-1] = arrB[z];
-                arrB[z] = tmp;
+            arrB[IPIV[z]-1] = arrB[z];
+            arrB[z] = tmp;
         }
 
         // forward  L(Ux) = B => y = Ux
@@ -260,50 +260,50 @@ int main(){
         // printArray(x,n,1);
         // printf("\n");
         printf("\nBLOCKED GEPP \n");
-        // printf("\nSize N = %d\n",n);
-        // arrA2 = (double *)calloc(sizeof(double),n*n);
-        // arrB2 = (double *)calloc(sizeof(double),n);
-        // tempv = (double *)calloc(sizeof(double),n);
-        // x = (double *)calloc(sizeof(double), n);
-        // y = (double *)calloc(sizeof(double), n);
-        // pvt = (int *)calloc(sizeof(int), n);
-        // for(k=0;k<blockLen;k++){
-        //
-        //     for(m=0;m<n;m++){
-        //         pvt[m]=m;
-        //     }
-        //     copyMatrix(arrA1,arrA2,n*n);
-        //     copyMatrix(arrB1,arrB2,n);
-        //     // printArray(arrB2,n,1);
-        //     clock_gettime(CLOCK_MONOTONIC, &tstart);
-        //     mydgetrfBlock(arrA2,pvt,tempv,n,block[k]);
-        //     clock_gettime(CLOCK_MONOTONIC, &tend);
-        //     printf("Block Size = %d",block[k]);
-        //     time = ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
-        //     printf("\nCPU time for LU factorisation = %.5f\n",time);
-        //     gflops = (2*pow(n,3))/(3*time*pow(10,9));
-        //     printf("\nPerformance in GFLOPS = %f\n",gflops);
-        //     mydtrsm_f(n,arrA2,arrB2,pvt,x,y);
-        //     mydtrsm_b(n,arrA2,arrB2,pvt,x,y);
-        //     // printf("\n");
-        //     // printArray(x,n,1);
-        //     // printf("\n");
-        //     checkCorrectness(arrB,x,n);
-        //
-        // }
-        //
-        // printf("\n");
+        printf("\nSize N = %d\n",n);
+
+        for(k=0;k<blockLen;k++){
+            arrA2 = (double *)calloc(sizeof(double),n*n);
+            arrB2 = (double *)calloc(sizeof(double),n);
+            tempv = (double *)calloc(sizeof(double),n);
+            x = (double *)calloc(sizeof(double), n);
+            y = (double *)calloc(sizeof(double), n);
+            pvt = (int *)calloc(sizeof(int), n);
+            for(m=0;m<n;m++){
+                pvt[m]=m;
+            }
+            copyMatrix(arrA1,arrA2,n*n);
+            copyMatrix(arrB1,arrB2,n);
+            // printArray(arrB2,n,1);
+            clock_gettime(CLOCK_MONOTONIC, &tstart);
+            mydgetrfBlock(arrA2,pvt,tempv,n,block[k]);
+            clock_gettime(CLOCK_MONOTONIC, &tend);
+            printf("Block Size = %d",block[k]);
+            time = ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
+            printf("\nCPU time for LU factorisation = %.5f\n",time);
+            gflops = (2*pow(n,3))/(3*time*pow(10,9));
+            printf("\nPerformance in GFLOPS = %f\n",gflops);
+            mydtrsm_f(n,arrA2,arrB2,pvt,x,y);
+            mydtrsm_b(n,arrA2,arrB2,pvt,x,y);
+            // printf("\n");
+            // printArray(x,n,1);
+            // printf("\n");
+            checkCorrectness(arrB,x,n);
+            free(pvt);
+            free(x);
+            free(y);
+            free(arrA2);
+            free(arrB2);
+            free(tempv);
+        }
+
+        free(arrA);
+        free(arrB);
+        free(arrA1);
+        free(arrB1);
+        free(IPIV);
+        printf("\n");
     }
-    // free(pvt);
-    // free(x);
-    // free(y);
-    // free(arrA2);
-    // free(arrB2);
-    // free(tempv);
-    // free(arrA);
-    // free(arrB);
-    // free(arrA1);
-    // free(arrB1);
-    // free(IPIV);
+
     return 0;
 }
