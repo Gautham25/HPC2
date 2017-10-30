@@ -186,8 +186,8 @@ int main(){
     srand((double)time(NULL));
     int *pvt,n,i,k,m,z;
     int ubound = 100, lbound = 0;
-    int arrN[] = {1000,2000,3000,4000,5000};
-    int block[] = {500};
+    int arrN[] = {10};//00,2000,3000,4000,5000};
+    int block[] = {2};
     double random = randomNumber(ubound,lbound);
     double time,gflops;
     int len = sizeof(arrN)/sizeof(arrN[0]);
