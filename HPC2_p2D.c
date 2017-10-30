@@ -188,36 +188,37 @@ int main(){
     double time,gflops;
     int len = sizeof(arrN)/sizeof(arrN[0]);
     int blockLen = sizeof(block)/sizeof(block[0]);
+    printf("%d and %d\n",len,blockLen);
     for(i=0;i<5;i++){
-        n = arrN[i];
-        struct timespec tstart={0,0},tend={0,0};
-        char TRANS = 'N';
-        int INFO = n;
-        int LDA = n;
-        int LDB = n;
-        int N = n;
-        int NRHS = 1;
-        int *IPIV = (int *)calloc(sizeof(int),n);
-        double  *arrA, *arrA1, *arrB, *arrB1, *arrA2, *arrB2, *x, *y, *abk, *tempv;
-        int *pvt;
-        char     SIDE = 'L';
-        char     UPLO = 'L';
-        char     DIAG = 'U';
-        int      M    = 1;
-        double   a    = 1.0;
-        arrA = (double *)calloc(sizeof(double),n*n);
-        arrA1 = (double *)calloc(sizeof(double),n*n);
-        arrB = (double *)calloc(sizeof(double),n);
-        arrB1 = (double *)calloc(sizeof(double), n);
-
-        assignMatVal(arrA,n*n,ubound,lbound);
-        copyMatrix(arrA,arrA1,n*n);
-        assignMatVal(arrB,n,ubound,lbound);
-        // printArray(arrB,n,1);
-        for(k=0;k<n;k++){
-            arrB1[k] = arrB[k];
-        }
-        transpose(arrA,n);
+        // n = arrN[i];
+        // struct timespec tstart={0,0},tend={0,0};
+        // char TRANS = 'N';
+        // int INFO = n;
+        // int LDA = n;
+        // int LDB = n;
+        // int N = n;
+        // int NRHS = 1;
+        // int *IPIV = (int *)calloc(sizeof(int),n);
+        // double  *arrA, *arrA1, *arrB, *arrB1, *arrA2, *arrB2, *x, *y, *abk, *tempv;
+        // int *pvt;
+        // char     SIDE = 'L';
+        // char     UPLO = 'L';
+        // char     DIAG = 'U';
+        // int      M    = 1;
+        // double   a    = 1.0;
+        // arrA = (double *)calloc(sizeof(double),n*n);
+        // arrA1 = (double *)calloc(sizeof(double),n*n);
+        // arrB = (double *)calloc(sizeof(double),n);
+        // arrB1 = (double *)calloc(sizeof(double), n);
+        //
+        // assignMatVal(arrA,n*n,ubound,lbound);
+        // copyMatrix(arrA,arrA1,n*n);
+        // assignMatVal(arrB,n,ubound,lbound);
+        // // printArray(arrB,n,1);
+        // for(k=0;k<n;k++){
+        //     arrB1[k] = arrB[k];
+        // }
+        // transpose(arrA,n);
         printf("\nLAPACK LIBRARY\n");
         // clock_gettime(CLOCK_MONOTONIC,&tstart);
         // LAPACK_dgetrf(&N,&N,arrA,&LDA,IPIV,&INFO);
