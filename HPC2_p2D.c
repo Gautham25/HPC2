@@ -11,33 +11,6 @@ double randomNumber(int ubound, int lbound){
     return s;
 }
 
-void transpose(double *a, int n){
-    int i,j;
-    double temp;
-    for(i=0;i<n;i++){
-        for(j=i;j<n;j++){
-            temp = a[i*n+j];
-            a[i*n+j] = a[j*n+i];
-            a[j*n+i] = temp;
-        }
-    }
-}
-
-void assignMatVal(double *a, int n, int ubound, int lbound){
-    int i;
-    for(i=0;i<n;i++){
-        a[i] = randomNumber(ubound, lbound);
-
-    }
-}
-
-void copyMatrix(double *a, double *b, int n){
-    int i,j;
-    for(i=0;i<n;i++){
-        b[i] = a[i];
-        printf("%f \t %f\n",b[i], a[i]);
-    }
-}
 void printArray(double *a, int n, int d){
     int i,j;
     if(d==2){
@@ -53,6 +26,35 @@ void printArray(double *a, int n, int d){
             printf("%f ",a[i]);
         }
         printf("\n");
+    }
+}
+
+void transpose(double *a, int n){
+    int i,j;
+    double temp;
+    printArray(a,n,2);
+    for(i=0;i<n;i++){
+        for(j=i;j<n;j++){
+            temp = a[i*n+j];
+            a[i*n+j] = a[j*n+i];
+            a[j*n+i] = temp;
+        }
+    }
+    printArray(a,n,2);
+}
+
+void assignMatVal(double *a, int n, int ubound, int lbound){
+    int i;
+    for(i=0;i<n;i++){
+        a[i] = randomNumber(ubound, lbound);
+
+    }
+}
+
+void copyMatrix(double *a, double *b, int n){
+    int i,j;
+    for(i=0;i<n;i++){
+        b[i] = a[i];
     }
 }
 
@@ -216,11 +218,11 @@ int main(){
         assignMatVal(arrA,n*n,ubound,lbound);
         copyMatrix(arrA,arrA1,n*n);
         assignMatVal(arrB,n,ubound,lbound);
-        // // printArray(arrB,n,1);
-        // for(k=0;k<n;k++){
-        //     arrB1[k] = arrB[k];
-        // }
-        // transpose(arrA,n);
+        // printArray(arrB,n,1);
+        for(k=0;k<n;k++){
+            arrB1[k] = arrB[k];
+        }
+        transpose(arrA,n);
         printf("\nLAPACK LIBRARY\n");
         // clock_gettime(CLOCK_MONOTONIC,&tstart);
         // LAPACK_dgetrf(&N,&N,arrA,&LDA,IPIV,&INFO);
