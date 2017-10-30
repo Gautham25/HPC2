@@ -228,38 +228,38 @@ int main(){
         printArray(arrA,n,2);
         time = ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
         // This function solve the Ax=B directly
-        //dgetrs_(&TRANS,&N,&NRHS,A,&LDA,IPIV,B,&LDB,&INFO);
+        dgetrs_(&TRANS,&N,&NRHS,A,&LDA,IPIV,B,&LDB,&INFO);
 
-        // // change the order of B according to IPIV[] from LU factorization
-        //
-        // for(z = 0; z < N; i++)
+        // change the order of B according to IPIV[] from LU factorization
+
+        for(z = 0; z < N; i++)
+        {
+            double tmp = arrB[IPIV[z]-1];
+                arrB[IPIV[z]-1] = arrB[z];
+                arrB[z] = tmp;
+        }
+
+        // forward  L(Ux) = B => y = Ux
+        dtrsm_(&SIDE,&UPLO,&TRANS,&DIAG,&N,&M,&a,arrA, &N, arrB, &N);
+        UPLO = 'U';
+        DIAG = 'N';
+
+        // backward Ux = y
+        dtrsm_(&SIDE,&UPLO,&TRANS,&DIAG,&N,&M,&a,arrA, &N, arrB, &N);
+
+        // printf("print the result : {\n");
+        // for (i=0;i<N;i++)
         // {
-        //     double tmp = arrB[IPIV[z]-1];
-        //         arrB[IPIV[z]-1] = arrB[z];
-        //         arrB[z] = tmp;
+        //        printf("%f ",arrB[i]);
         // }
-        //
-        // // forward  L(Ux) = B => y = Ux
-        // dtrsm_(&SIDE,&UPLO,&TRANS,&DIAG,&N,&M,&a,arrA, &N, arrB, &N);
-        // UPLO = 'U';
-        // DIAG = 'N';
-        //
-        // // backward Ux = y
-        // dtrsm_(&SIDE,&UPLO,&TRANS,&DIAG,&N,&M,&a,arrA, &N, arrB, &N);
-        //
-        // // printf("print the result : {\n");
-        // // for (i=0;i<N;i++)
-        // // {
-        // //        printf("%f ",arrB[i]);
-        // // }
-        // printf("Size N = %d\n",n);
-        // printf("Time Taken = %.5f seconds\n",time);
-        // gflops = (2*pow(n,3))/(3*time*pow(10,9));
-        // printf("\nPerformance in GFLOPS = %f\n",gflops);
-        // // printf("\n");
-        // // printArray(x,n,1);
-        // // printf("\n");
-        // printf("\nBLOCKED GEPP \n");
+        printf("Size N = %d\n",n);
+        printf("Time Taken = %.5f seconds\n",time);
+        gflops = (2*pow(n,3))/(3*time*pow(10,9));
+        printf("\nPerformance in GFLOPS = %f\n",gflops);
+        // printf("\n");
+        // printArray(x,n,1);
+        // printf("\n");
+        printf("\nBLOCKED GEPP \n");
         // printf("\nSize N = %d\n",n);
         // arrA2 = (double *)calloc(sizeof(double),n*n);
         // arrB2 = (double *)calloc(sizeof(double),n);
