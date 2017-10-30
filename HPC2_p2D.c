@@ -32,7 +32,6 @@ void printArray(double *a, int n, int d){
 void transpose(double *a, int n){
     int i,j;
     double temp;
-    printArray(a,n,2);
     for(i=0;i<n;i++){
         for(j=i;j<n;j++){
             temp = a[i*n+j];
@@ -40,7 +39,6 @@ void transpose(double *a, int n){
             a[j*n+i] = temp;
         }
     }
-    printArray(a,n,2);
 }
 
 void assignMatVal(double *a, int n, int ubound, int lbound){
@@ -227,6 +225,7 @@ int main(){
         clock_gettime(CLOCK_MONOTONIC,&tstart);
         LAPACK_dgetrf(&N,&N,arrA,&LDA,IPIV,&INFO);
         clock_gettime(CLOCK_MONOTONIC,&tend);
+        printArray(arrA,n,2);
         time = ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
         // This function solve the Ax=B directly
         //dgetrs_(&TRANS,&N,&NRHS,A,&LDA,IPIV,B,&LDB,&INFO);
