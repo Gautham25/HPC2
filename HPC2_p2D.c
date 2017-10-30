@@ -27,7 +27,7 @@ void assignMatVal(double *a, int n, int ubound, int lbound){
     int i;
     for(i=0;i<n;i++){
         a[i] = randomNumber(ubound, lbound);
-        printf("%f \n",a[i]);
+
     }
 }
 
@@ -35,6 +35,7 @@ void copyMatrix(double *a, double *b, int n){
     int i,j;
     for(i=0;i<n;i++){
         b[i] = a[i];
+        printf("%f \t %f\n",b[i], a[i]);
     }
 }
 void printArray(double *a, int n, int d){
@@ -213,8 +214,8 @@ int main(){
         arrB1 = (double *)calloc(sizeof(double), n);
         //
         assignMatVal(arrA,n*n,ubound,lbound);
-        // copyMatrix(arrA,arrA1,n*n);
-        // assignMatVal(arrB,n,ubound,lbound);
+        copyMatrix(arrA,arrA1,n*n);
+        assignMatVal(arrB,n,ubound,lbound);
         // // printArray(arrB,n,1);
         // for(k=0;k<n;k++){
         //     arrB1[k] = arrB[k];
