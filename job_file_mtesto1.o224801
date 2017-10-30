@@ -1,0 +1,26 @@
+
+CPU time for LU factorization n=1000 is 0.988066
+the gflops used are=0.674719
+CPU time for LU factorization n=1000 is 0.447763
+the gflops used are=1.488882
+ the error value for n=1000 is 0.000000 
+CPU time for LU factorization n=2000 is 8.517268
+the gflops used are=0.626179
+CPU time for LU factorization n=2000 is 3.701868
+the gflops used are=1.440714
+ the error value for n=2000 is 0.000000 
+CPU time for LU factorization n=3000 is 33.688828
+the gflops used are=0.534302
+CPU time for LU factorization n=3000 is 12.288844
+the gflops used are=1.464743
+ the error value for n=3000 is 0.000000 
+CPU time for LU factorization n=4000 is 71.259027
+the gflops used are=0.598755
+CPU time for LU factorization n=4000 is 29.766784
+the gflops used are=1.433365
+ the error value for n=4000 is 0.000000 
+CPU time for LU factorization n=5000 is 165.031052
+the gflops used are=0.504955
+CPU time for LU factorization n=5000 is 64.093411
+the gflops used are=1.300186
+ the error value for n=5000 is 0.000000 
