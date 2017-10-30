@@ -27,6 +27,7 @@ void assignMatVal(double *a, int n, int ubound, int lbound){
     int i;
     for(i=0;i<n;i++){
         a[i] = randomNumber(ubound, lbound);
+        printf("%f \n",a[i]);
     }
 }
 
@@ -182,7 +183,7 @@ int main(){
     srand((double)time(NULL));
     int *pvt,n,i,k,m,z;
     int ubound = 100, lbound = 0;
-    int arrN[] = {10};//00,2000,3000,4000,5000};
+    int arrN[] = {4};//00,2000,3000,4000,5000};
     int block[] = {2};
     double random = randomNumber(ubound,lbound);
     double time,gflops;
@@ -211,7 +212,7 @@ int main(){
         arrB = (double *)calloc(sizeof(double),n);
         arrB1 = (double *)calloc(sizeof(double), n);
         //
-        // assignMatVal(arrA,n*n,ubound,lbound);
+        assignMatVal(arrA,n*n,ubound,lbound);
         // copyMatrix(arrA,arrA1,n*n);
         // assignMatVal(arrB,n,ubound,lbound);
         // // printArray(arrB,n,1);
