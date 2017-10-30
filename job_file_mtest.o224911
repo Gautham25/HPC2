@@ -1,0 +1,26 @@
+LU factorization failed:coefficient matrix is singular
+CPU time for LU factorization n=1000 is 3.575823
+the gflops used are=0.186437
+CPU time for LU factorization n=1000 is 0.558756
+the gflops used are=1.193127
+ the error value for n=1000 is 4.000000 LU factorization failed:coefficient matrix is singular
+CPU time for LU factorization n=2000 is 27.927392
+the gflops used are=0.190971
+CPU time for LU factorization n=2000 is 4.540663
+the gflops used are=1.174572
+ the error value for n=2000 is 4.000000 
+CPU time for LU factorization n=3000 is 94.467164
+the gflops used are=0.190542
+CPU time for LU factorization n=3000 is 15.186884
+the gflops used are=1.185233
+ the error value for n=3000 is 4.000000 LU factorization failed:coefficient matrix is singular
+CPU time for LU factorization n=4000 is 207.036459
+the gflops used are=0.206083
+CPU time for LU factorization n=4000 is 33.140337
+the gflops used are=1.287454
+ the error value for n=4000 is 4.000000 LU factorization failed:coefficient matrix is singular
+CPU time for LU factorization n=5000 is 434.382151
+the gflops used are=0.191843
+CPU time for LU factorization n=5000 is 76.679068
+the gflops used are=1.086781
+ the error value for n=5000 is 4.000000 
