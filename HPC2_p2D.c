@@ -189,27 +189,27 @@ int main(){
     int len = sizeof(arrN)/sizeof(arrN[0]);
     int blockLen = sizeof(block)/sizeof(block[0]);
     printf("%d and %d\n",len,blockLen);
-    for(i=0;i<5;i++){
-        // n = arrN[i];
-        // struct timespec tstart={0,0},tend={0,0};
-        // char TRANS = 'N';
-        // int INFO = n;
-        // int LDA = n;
-        // int LDB = n;
-        // int N = n;
-        // int NRHS = 1;
-        // int *IPIV = (int *)calloc(sizeof(int),n);
-        // double  *arrA, *arrA1, *arrB, *arrB1, *arrA2, *arrB2, *x, *y, *abk, *tempv;
-        // int *pvt;
-        // char     SIDE = 'L';
-        // char     UPLO = 'L';
-        // char     DIAG = 'U';
-        // int      M    = 1;
-        // double   a    = 1.0;
-        // arrA = (double *)calloc(sizeof(double),n*n);
-        // arrA1 = (double *)calloc(sizeof(double),n*n);
-        // arrB = (double *)calloc(sizeof(double),n);
-        // arrB1 = (double *)calloc(sizeof(double), n);
+    for(i=0;i<len;i++){
+        n = arrN[i];
+        struct timespec tstart={0,0},tend={0,0};
+        char TRANS = 'N';
+        int INFO = n;
+        int LDA = n;
+        int LDB = n;
+        int N = n;
+        int NRHS = 1;
+        int *IPIV = (int *)calloc(sizeof(int),n);
+        double  *arrA, *arrA1, *arrB, *arrB1, *arrA2, *arrB2, *x, *y, *abk, *tempv;
+        int *pvt;
+        char     SIDE = 'L';
+        char     UPLO = 'L';
+        char     DIAG = 'U';
+        int      M    = 1;
+        double   a    = 1.0;
+        arrA = (double *)calloc(sizeof(double),n*n);
+        arrA1 = (double *)calloc(sizeof(double),n*n);
+        arrB = (double *)calloc(sizeof(double),n);
+        arrB1 = (double *)calloc(sizeof(double), n);
         //
         // assignMatVal(arrA,n*n,ubound,lbound);
         // copyMatrix(arrA,arrA1,n*n);
@@ -264,7 +264,7 @@ int main(){
         // x = (double *)calloc(sizeof(double), n);
         // y = (double *)calloc(sizeof(double), n);
         // pvt = (int *)calloc(sizeof(int), n);
-        // for(k=0;k<1;k++){
+        // for(k=0;k<blockLen;k++){
         //
         //     for(m=0;m<n;m++){
         //         pvt[m]=m;
